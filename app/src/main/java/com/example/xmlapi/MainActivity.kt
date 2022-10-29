@@ -3,6 +3,7 @@ package com.example.xmlapi
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.xmlapi.databinding.ActivityLoginBinding
 import com.example.xmlapi.databinding.ActivityMainBinding
 
 
@@ -16,7 +17,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SubActivityGang::class.java)
             startActivity(intent)
         }
-
+        binding.btnLogin.setOnClickListener{
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
     }
 }

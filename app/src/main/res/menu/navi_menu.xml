@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/cafeFragment"
+        android:title="카페"
+        android:icon="@drawable/ic_baseline_coffee_24"/>
+
+    <item
+        android:id="@+id/subwayFragment"
+        android:title="지하철"
+        android:icon="@drawable/ic_baseline_directions_subway_24"/>
+
+    <item
+        android:id="@+id/myPageFragment"
+        android:title="내 정보"
+        android:icon="@drawable/ic_baseline_manage_accounts_24"/>
+
+</menu>
