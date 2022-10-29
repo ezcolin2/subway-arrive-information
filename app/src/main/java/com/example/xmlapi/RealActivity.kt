@@ -1,5 +1,6 @@
 package com.example.xmlapi
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -22,6 +23,12 @@ class RealActivity : AppCompatActivity() {
             }
             true
         }
+
+    }
+    fun activateCafeInformActivity(storeName:String){
+        val intent: Intent = Intent(this@RealActivity,StoreActivity::class.java)
+        intent.putExtra("storeName",storeName)
+        startActivity(intent)
 
     }
     private fun setFragment(tag: String, fragment: Fragment) {

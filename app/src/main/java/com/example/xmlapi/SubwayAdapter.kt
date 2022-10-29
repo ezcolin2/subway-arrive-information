@@ -1,12 +1,13 @@
 package com.example.xmlapi
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 
-class SubwayAdapter(val context:SubActivityGang, val subwayList:Array<Data>):BaseAdapter()
+class SubwayAdapter(val context: Context, val subwayList:Array<Data>):BaseAdapter()
 {
 
     override fun getCount(): Int {
