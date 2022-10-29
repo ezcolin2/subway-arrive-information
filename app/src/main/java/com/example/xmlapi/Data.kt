@@ -1,6 +1,6 @@
 package com.example.xmlapi
 
-import java.util.*
+
 
 data class Data(
     val trainLineNm:String,

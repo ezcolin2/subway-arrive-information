@@ -1,19 +1,16 @@
 package com.example.xmlapi
 
-import android.content.Intent
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import androidx.recyclerview.widget.AsyncListDiffer
 
 import com.example.xmlapi.databinding.ActivitySubGangBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class SubActivityGang : AppCompatActivity() {
     private lateinit var binding:ActivitySubGangBinding
@@ -53,28 +50,6 @@ class SubActivityGang : AppCompatActivity() {
                 override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     binding.btnGang.text = arr[position].btrainNo
                 }
-
-            }
-        }
-        )
-    }
-
-    private fun apiRequest2(){
-
-        val call = Api().apiRequest2()
-
-
-        call.enqueue(object: Callback<Ticker2> {
-            override fun onResponse(call: Call<Ticker2>, response: Response<Ticker2>) {
-                val info = response.body()
-                val arr = info?.realtimePositionList!!
-                binding.btnGang.text=arr[0].subwayNm
-
-            }
-
-            override fun onFailure(call: Call<Ticker2>, t: Throwable) {
-
-                call.cancel()
 
             }
         }
