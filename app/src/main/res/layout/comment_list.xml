@@ -4,56 +4,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="5dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="5dp"
         android:orientation="horizontal">
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RatingBar
+            android:id="@+id/writer_rating"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginStart="237dp"
+            android:layout_marginTop="54dp"
+            android:layout_marginEnd="322dp"
+            android:layout_marginBottom="64dp"
+            android:layout_weight="1"
+            android:inputType="textMultiLine"
+            android:isIndicator="true"
+            android:max="5"
+            android:numStars="5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_margin="5dp"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            app:srcCompat="@drawable/user_color" />
 
         <TextView
             android:id="@+id/writer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
             android:layout_margin="10dp"
-            tools:layout_editor_absoluteX="296dp"
-            tools:layout_editor_absoluteY="16dp" />
-
-        <TextView
-            android:id="@+id/writer_score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="51dp"
             android:text="TextView"
-            android:layout_margin="10dp"
-            tools:layout_editor_absoluteX="186dp"
-            tools:layout_editor_absoluteY="7dp" />
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/writer_time"
-            android:layout_width="141dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="51dp"
             android:text="TextView"
-            tools:layout_editor_absoluteX="89dp"
-            tools:layout_editor_absoluteY="0dp" />
-    </LinearLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/writer_comment"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:text="TextView" />
+        android:text="TextView"
+        android:layout_margin="5dp"
+        android:inputType="textMultiLine"
+        android:padding="5dp"/>
 
 
 </LinearLayout>

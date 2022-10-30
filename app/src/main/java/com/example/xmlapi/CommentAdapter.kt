@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.RatingBar
 import android.widget.TextView
 
 class CommentAdapter(val context: StoreActivity, val commentList:ArrayList<StoreComment>):
@@ -26,12 +27,12 @@ class CommentAdapter(val context: StoreActivity, val commentList:ArrayList<Store
         var view: View = LayoutInflater.from(context).inflate(R.layout.comment_list,null)
 
         val name = view.findViewById<TextView>(R.id.writer_name)
-        val score = view.findViewById<TextView>(R.id.writer_score)
+        val score = view.findViewById<RatingBar>(R.id.writer_rating)
         val comment = view.findViewById<TextView>(R.id.writer_comment)
         val time = view.findViewById<TextView>(R.id.writer_time)
         val comments = commentList[position]
         name.text=comments.user_name
-        score.text=comments.score.toString()
+        score.rating=comments.score.toFloat()
         comment.text=comments.comment
         time.text=comments.time
         return view

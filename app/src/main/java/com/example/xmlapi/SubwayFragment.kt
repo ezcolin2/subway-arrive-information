@@ -65,7 +65,7 @@ class SubwayFragment : Fragment() {
             }
             inner class ListClickListener: AdapterView.OnItemClickListener{
                 override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    binding.btnGang.text = arr[position].btrainNo
+
                 }
 
             }

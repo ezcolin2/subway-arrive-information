@@ -6,15 +6,19 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.xmlapi.databinding.ActivityRealBinding
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class RealActivity : AppCompatActivity() {
     lateinit var binding:ActivityRealBinding
+    private lateinit var database: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityRealBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setFragment("cafe_fragment", CafeFragment())
-
+        database= Firebase.database.reference
         binding.navigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.cafeFragment -> setFragment("cafe_fragment", CafeFragment())
@@ -24,9 +28,13 @@ class RealActivity : AppCompatActivity() {
             true
         }
 
+
     }
     fun activateCafeInformActivity(storeName:String){
+
         val intent: Intent = Intent(this@RealActivity,StoreActivity::class.java)
+        val comment:StoreComment = StoreComment("not","not","not",0F,"not")
+        database.child("cafe").child(storeName).child("comment").child("not").setValue(comment)
         intent.putExtra("storeName",storeName)
         startActivity(intent)
 

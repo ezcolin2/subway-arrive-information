@@ -29,6 +29,7 @@ class CafeFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_cafe,container,false)
+
         return binding.root
     }
 
