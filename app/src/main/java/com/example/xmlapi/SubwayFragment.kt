@@ -28,31 +28,33 @@ class SubwayFragment : Fragment() {
     lateinit var binding:FragmentSubwayBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=FragmentSubwayBinding.inflate(layoutInflater)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding=FragmentSubwayBinding.inflate(layoutInflater)
-        val view:View = inflater.inflate(R.layout.fragment_subway,container,false)
+        binding=FragmentSubwayBinding.inflate(layoutInflater,container,false)
+        binding.btnGang.setOnClickListener {
+            apiRequest()
+        }
+        return binding.root
+    }
+    private fun apiRequest(){
 
         val call = Api().apiRequest()
         lateinit var arr:Array<Data>
 
-        call.enqueue(object :Callback<Ticker>{
+        call.enqueue(object: Callback<Ticker> {
             override fun onResponse(call: Call<Ticker>, response: Response<Ticker>) {
                 val info = response.body()
                 arr = info?.realtimeArrivalList!!
 
 
-                val adapter2 = SubwayFragAdapter(requireContext(), arr)
-                val list = view.findViewById<ListView>(R.id.list_view)
-                list.adapter = adapter2
-
-
-
+                val Adapter = SubwayAdapter(requireContext(), arr)
+                binding.listView.adapter=Adapter
+                var listener = ListClickListener()
+                binding.listView.onItemClickListener = listener
 
             }
 
@@ -61,11 +63,14 @@ class SubwayFragment : Fragment() {
                 call.cancel()
 
             }
-        })
+            inner class ListClickListener: AdapterView.OnItemClickListener{
+                override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    binding.btnGang.text = arr[position].btrainNo
+                }
 
-
-
-        return view
+            }
+        }
+        )
     }
     companion object {
         /**

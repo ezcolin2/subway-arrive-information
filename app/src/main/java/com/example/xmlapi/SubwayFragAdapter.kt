@@ -27,6 +27,7 @@ class SubwayFragAdapter(val context: Context, val list:Array<Data>): BaseAdapter
             view=convertView
         }
         val item = list[position]
+        holder.subwayHeading?.text=item.subwayHeading
         //여기 하나 빠짐
         return view
     }
