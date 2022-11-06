@@ -17,7 +17,6 @@ class WriteFirebaseStore(val storeComment : StoreComment, val storeName : String
 
         database.child("cafe").child(storeName).child("comment").push().setValue(storeComment)
         database.child("cafe").child(storeName).child("totalScore").push().setValue(score)
-        
         database.child("user").child(storeComment.uId).child("comment").push().setValue(storeComment)
         //나중에 총 댓글 수도 확인하게끔 하기
     }

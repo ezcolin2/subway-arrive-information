@@ -43,6 +43,7 @@ class StoreActivity : AppCompatActivity() {
 
                 for(snap in snapshot.children){
                     val comment:StoreComment = snap.getValue<StoreComment>()!!
+
                     if(comment.time=="not"){
                         continue;
                     }

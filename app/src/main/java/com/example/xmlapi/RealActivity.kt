@@ -3,6 +3,7 @@ package com.example.xmlapi
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.xmlapi.databinding.ActivityRealBinding
@@ -29,12 +30,27 @@ class RealActivity : AppCompatActivity() {
         }
 
 
+        val actionBar = getSupportActionBar()
+        actionBar?.setDisplayShowCustomEnabled(true)
+        actionBar?.setDisplayShowTitleEnabled(false)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
+
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
     fun activateCafeInformActivity(storeName:String){
 
         val intent: Intent = Intent(this@RealActivity,StoreActivity::class.java)
         val comment:StoreComment = StoreComment("not","not","not",0F,"not")
         database.child("cafe").child(storeName).child("comment").child("not").setValue(comment)
+        database.child("cafe").child(storeName).child("name").setValue(storeName)
         intent.putExtra("storeName",storeName)
         startActivity(intent)
 
@@ -42,7 +58,6 @@ class RealActivity : AppCompatActivity() {
     private fun setFragment(tag: String, fragment: Fragment) {
         val manager: FragmentManager = supportFragmentManager
         val fragTransaction = manager.beginTransaction()
-
         if (manager.findFragmentByTag(tag) == null){
             fragTransaction.add(R.id.mainFrameLayout, fragment, tag)
         }

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".RealActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,7 +15,9 @@
         <FrameLayout
             android:id="@+id/mainFrameLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" >
+
+        </FrameLayout>
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
