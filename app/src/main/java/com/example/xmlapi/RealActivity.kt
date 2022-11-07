@@ -30,20 +30,12 @@ class RealActivity : AppCompatActivity() {
         }
 
 
-        val actionBar = getSupportActionBar()
-        actionBar?.setDisplayShowCustomEnabled(true)
-        actionBar?.setDisplayShowTitleEnabled(false)
-        actionBar?.setDisplayHomeAsUpEnabled(true)
+
 
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
-
-
-        return super.onCreateOptionsMenu(menu)
-    }
 
     fun activateCafeInformActivity(storeName:String){
 

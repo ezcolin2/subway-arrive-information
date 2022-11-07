@@ -37,7 +37,7 @@ class CafeFragment : Fragment(), View.OnClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCafeBinding.inflate(inflater,container)
+        binding = FragmentCafeBinding.inflate(inflater,container,false)
         val listView = binding.listView
         arr=ArrayList<Cafe>()
         database = Firebase.database.reference
@@ -48,19 +48,23 @@ class CafeFragment : Fragment(), View.OnClickListener {
         database.child("cafe").addValueEventListener(
             object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot==null){
+                        return
+                    }
                     for(snap in snapshot.children){
 
-                        //val cafeName:String = snap.getValue<String>()!!
-                        val reviewNums:Int = snap.child("totalCount").getValue<Int>()!!
-                        val reviewStars:Float = snap.child("totalScore").getValue<Float>()!!
-                        val name:String = snap.child("name").getValue<String>()!!
+                        val reviewNums:Int = snap.child("totalCount").getValue<Int>()?:0
+                        val reviewStars:Float = snap.child("totalScore").getValue<Float>()?:0F
+                        val name:String = snap.child("name").getValue<String>()?:"없음"
+
+
                         arr.add(Cafe(name,reviewNums,reviewStars))
                     }
                     adapter.notifyDataSetChanged()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    arr.add(Cafe("정보 없음",0,0F))
                 }
             }
         )
