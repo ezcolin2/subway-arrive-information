@@ -1,6 +1,7 @@
 package com.example.xmlapi
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.widget.Toast
 import com.example.xmlapi.databinding.ActivityLoginBinding
 import com.example.xmlapi.databinding.ActivityRealBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -55,10 +57,7 @@ class LoginActivity : AppCompatActivity() {
             val intent: Intent = Intent(this@LoginActivity, SignupActivity::class.java)
             startActivity(intent)
         }
-
-
     }
-
 
     private fun kakaologin() {
         // 로그인 조합 예제
@@ -144,8 +143,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-
-
     private fun signUp(name: String, gender: String, email: String, id: String) {
         mAuth.createUserWithEmailAndPassword(email, id)
             .addOnCompleteListener(this) { task ->
@@ -166,4 +163,5 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
         Toast.makeText(this,"카카오 로그인 성공", Toast.LENGTH_SHORT).show()
     }
+
 }
