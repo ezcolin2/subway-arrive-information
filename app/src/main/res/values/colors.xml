@@ -12,4 +12,8 @@
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="Blue">#FF6495ed</color>
+    <color name="login_btn_blue_x">#4D74B9EC</color>
+    <color name="login_btn_blue">#74B9EC</color>
+    <color name="login_btn_gray">#ebebeb</color>
+    <color name="gray">#f0f0f0</color>
 </resources>
