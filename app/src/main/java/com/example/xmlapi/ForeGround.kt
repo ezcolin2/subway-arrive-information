@@ -78,6 +78,7 @@ class ForeGround : Service() {
                             vibrator.vibrate(vibrationEffect)
 
 
+
                         }
 
                         val noti = NotificationCompat.Builder(this@ForeGround,CHANNEL_ID)//호한성을 위해 낮은 버전 사용하고 빌더
