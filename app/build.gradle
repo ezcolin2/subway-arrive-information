@@ -10,12 +10,12 @@ def Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 android {
     namespace 'com.example.xmlapi'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.xmlapi"
         minSdk 24
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -61,6 +61,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.13'
     implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.fragment:fragment-ktx:1.5.4'
+    implementation 'androidx.activity:activity-ktx:1.6.1'
     annotationProcessor 'com.tickaroo.tikxml:processor:0.8.13'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

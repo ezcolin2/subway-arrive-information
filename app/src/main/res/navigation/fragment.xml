@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment"
+    app:startDestination="@id/myPageFragment">
+
+    <fragment
+        android:id="@+id/myPageFragment"
+        android:name="com.example.xmlapi.MyPageFragment"
+        android:label="fragment_my_page"
+        tools:layout="@layout/fragment_my_page" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.xmlapi.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/cafeFragment"
+        android:name="com.example.xmlapi.CafeFragment"
+        android:label="CafeFragment" >
+        <action
+            android:id="@+id/action_cafeFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/subwayFragment"
+        android:name="com.example.xmlapi.SubwayFragment"
+        android:label="SubwayFragment" />
+    <fragment
+        android:id="@+id/reviewFragment2"
+        android:name="com.example.xmlapi.ReviewFragment"
+        android:label="fragment_review"
+        tools:layout="@layout/fragment_review" >
+        <action
+            android:id="@+id/action_reviewFragment2_to_cafeFragment"
+            app:destination="@id/cafeFragment" />
+    </fragment>
+</navigation>

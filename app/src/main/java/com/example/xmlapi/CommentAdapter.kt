@@ -1,5 +1,6 @@
 package com.example.xmlapi
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.RatingBar
 import android.widget.TextView
 
-class CommentAdapter(val context: StoreActivity, val commentList:ArrayList<StoreComment>):
+class CommentAdapter(val context: Context, val commentList:ArrayList<StoreComment>):
     BaseAdapter()
 {
 

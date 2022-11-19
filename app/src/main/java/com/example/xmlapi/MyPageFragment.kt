@@ -130,7 +130,7 @@ class MyPageFragment : Fragment() ,View.OnClickListener{
     }
 
     override fun onClick(v:View){
-        (activity as RealActivity).activateCafeInformActivity("반점")
+        //(activity as RealActivity).activateCafeInformActivity("반점")
     }
     companion object {
         /**
