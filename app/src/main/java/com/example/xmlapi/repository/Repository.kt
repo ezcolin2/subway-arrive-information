@@ -13,18 +13,18 @@ import com.google.firebase.ktx.Firebase
 
 class Repository {
     val database = Firebase.database
-    val userRef = database.getReference("user")
+    val cafeRef = database.getReference("cafe")
     lateinit var arr:ArrayList<Cafe>
     lateinit var commentList:ArrayList<StoreComment>
-    fun observeCafeList(arrCafe: MutableLiveData<Array<Cafe>>){
+    fun observeCafeList(arrCafe: MutableLiveData<ArrayList<Cafe>>){
 
-        database.getReference("cafe").addValueEventListener(object : ValueEventListener {
+        cafeRef.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     arr=ArrayList<Cafe>()
 
                     if(snapshot==null){
                         arr.add(Cafe("name",0,0F))
-                        arrCafe.value=arr.toTypedArray()
+                        arrCafe.value=arr
                         return
                     }
                     for(snap in snapshot.children){
@@ -37,7 +37,7 @@ class Repository {
                         arr.add(Cafe(name,reviewNums,reviewStars))
 
                     }
-                    arrCafe.postValue(arr.toTypedArray())
+                    arrCafe.postValue(arr)
 
 
 
@@ -84,6 +84,6 @@ class Repository {
         database.getReference("cafe").child(storeName).child("totalCount").setValue(count)
     }
     fun postReview(newValue:String){
-        userRef.setValue(newValue)
+
     }
 }

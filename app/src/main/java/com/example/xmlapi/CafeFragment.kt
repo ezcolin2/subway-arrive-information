@@ -38,7 +38,6 @@ private const val ARG_PARAM2 = "param2"
 class CafeFragment : Fragment() {
     private lateinit var binding: FragmentCafeBinding
     val viewModel:Viewmodel by activityViewModels()
-    private lateinit var database: DatabaseReference
     private lateinit var arr:ArrayList<Cafe>
 
     override fun onCreateView(
@@ -47,7 +46,7 @@ class CafeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel.cafeList.observe(viewLifecycleOwner){
-
+            arr=viewModel.cafeList.value!!
         }
         binding = FragmentCafeBinding.inflate(inflater,container,false)
         (activity as RealActivity).visibleBottom()
@@ -80,6 +79,20 @@ class CafeFragment : Fragment() {
 
         return binding.root
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        val arr=viewModel.cafeList.value!!
+
+
+        val adapter = CafeAdapter(requireContext(),arr)
+        adapter.notifyDataSetChanged()
+        binding.listView.adapter=adapter
+        val listener = ListClickListener()
+        binding.listView.onItemClickListener=listener
+
+    }
     inner class ListClickListener: AdapterView.OnItemClickListener{
         override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
@@ -91,23 +104,7 @@ class CafeFragment : Fragment() {
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-
-        val arr2=viewModel.cafeList.value!!
-        arr=ArrayList<Cafe>()
-        for(i in arr2){
-            arr.add(i)
-        }
-
-        val adapter = CafeAdapter(requireContext(),arr)
-        adapter.notifyDataSetChanged()
-        binding.listView.adapter=adapter
-        val listener = ListClickListener()
-        binding.listView.onItemClickListener=listener
-
-    }
 
 
 

@@ -66,7 +66,7 @@ class ReviewFragment : Fragment() {
         }
         title = model.storeName.value.toString()
         Log.d("name",title)
-        // Inflate the layout for this fragment
+
         (activity as RealActivity).hideBottom()
         binding=FragmentReviewBinding.inflate(inflater)
         database= Firebase.database.reference

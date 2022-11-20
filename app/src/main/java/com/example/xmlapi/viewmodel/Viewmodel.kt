@@ -9,16 +9,16 @@ import com.example.xmlapi.repository.Repository
 
 class Viewmodel : ViewModel() {
     private val repository = Repository()
-    var arr= emptyArray<Cafe>()
 
 
 
-    private val _arr = MutableLiveData<Array<Cafe>>(arrayOf(Cafe("hihi",1,1F)))
+    private val _arr = MutableLiveData<ArrayList<Cafe>>(ArrayList<Cafe>())
+
     private val _reviews = MutableLiveData<ArrayList<StoreComment>>()
     private val _storeName = MutableLiveData<String>("반점")
     init{
         repository.observeCafeList(_arr)
-
+        repository.observeReviewList(_reviews,storeName.value!!)
 
 
     }
