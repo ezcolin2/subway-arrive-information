@@ -2,6 +2,7 @@ package com.example.xmlapi
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RatingBar
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.xmlapi.databinding.FragmentReviewBinding
+import com.example.xmlapi.viewmodel.Viewmodel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -36,13 +40,16 @@ class ReviewFragment : Fragment() {
     lateinit var binding:FragmentReviewBinding
     private lateinit var database: DatabaseReference
     private lateinit var commentList:ArrayList<StoreComment>
-    var title = "정보 없음"
+    private val model : Viewmodel by activityViewModels()
+    private lateinit var title:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            title = it.getString("storeName")?:"정보 없음"
-        }
+//        arguments?.let {
+//            title = it.getString("storeName")?:"정보 없음"
+//        }
+
 
     }
 
@@ -50,46 +57,57 @@ class ReviewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        model.storeName.observe(viewLifecycleOwner){
+
+        }
+        model.reviews.observe(viewLifecycleOwner){
+
+        }
+        title = model.storeName.value.toString()
+        Log.d("name",title)
         // Inflate the layout for this fragment
         (activity as RealActivity).hideBottom()
         binding=FragmentReviewBinding.inflate(inflater)
         database= Firebase.database.reference
-        commentList = ArrayList()
+        //commentList = ArrayList()
         binding.txtTitle.text=title
+        commentList=model.reviews.value?:ArrayList<StoreComment>()
 
         val commentAdapter = CommentAdapter(requireContext(), commentList)
         binding.listView.adapter=commentAdapter
 
+        Log.d("name",title)
 
-        database.child("cafe").child(title).child("comment").addValueEventListener(object:
-            ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var totalScore:Float = 0F;
-                var totalCount:Int = 0;
-
-                for(snap in snapshot.children){
-                    val comment:StoreComment = snap.getValue<StoreComment>()!!
-
-                    if(comment.time=="not"){
-                        continue;
-                    }
-                    commentList.add(0,comment)
-                    totalScore+=snap.child("score").getValue<Float>()?:0F
-                    totalCount++
-                }
-                if(totalCount!=0) {
-                    setScoreAndCount(title, totalScore / totalCount, totalCount)
-                }
-
-
-                commentAdapter.notifyDataSetChanged()
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
+//        database.child("cafe").child(title).child("comment").addValueEventListener(object:
+//            ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                var totalScore:Float = 0F;
+//                var totalCount:Int = 0;
+//
+//                for(snap in snapshot.children){
+//                    val comment:StoreComment = snap.getValue<StoreComment>()!!
+//
+//                    if(comment.time=="not"){
+//                        continue;
+//                    }
+//                    commentList.add(0,comment)
+//                    totalScore+=snap.child("score").getValue<Float>()?:0F
+//                    totalCount++
+//                }
+//                if(totalCount!=0) {
+//                    setScoreAndCount(title, totalScore / totalCount, totalCount)
+//                }
+//
+//
+//                commentAdapter.notifyDataSetChanged()
+//
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//
+//            }
+//        })
         binding.btnRegisterReview.setOnClickListener{
             val reviewDialog = LayoutInflater.from(requireContext()).inflate(R.layout.reviews_dialog,null)
             val reviewBuilder= AlertDialog.Builder(requireContext())

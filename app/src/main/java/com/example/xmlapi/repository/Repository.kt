@@ -14,12 +14,13 @@ import com.google.firebase.ktx.Firebase
 class Repository {
     val database = Firebase.database
     val userRef = database.getReference("user")
-    val arr=ArrayList<Cafe>()
-    val commentList=ArrayList<StoreComment>()
+    lateinit var arr:ArrayList<Cafe>
+    lateinit var commentList:ArrayList<StoreComment>
     fun observeCafeList(arrCafe: MutableLiveData<Array<Cafe>>){
 
         database.getReference("cafe").addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    arr=ArrayList<Cafe>()
 
                     if(snapshot==null){
                         arr.add(Cafe("name",0,0F))
@@ -52,6 +53,7 @@ class Repository {
         database.getReference("cafe").child(storeName).child("comment")
             .addValueEventListener(object:ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    commentList=ArrayList<StoreComment>()
                     var totalScore:Float = 0F;
                     var totalCount:Int = 0;
 
@@ -68,6 +70,7 @@ class Repository {
                     if(totalCount!=0) {
                         setScoreAndCount(storeName, totalScore / totalCount, totalCount)
                     }
+                    arrReview.postValue(commentList)
                 }
 
                 override fun onCancelled(error: DatabaseError) {

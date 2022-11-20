@@ -83,6 +83,7 @@ class CafeFragment : Fragment() {
     inner class ListClickListener: AdapterView.OnItemClickListener{
         override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
+            viewModel.setStoreName(arr[position].cafeName)
             val bundle = bundleOf("storeName" to arr[position].cafeName)
             findNavController().navigate(R.id.action_cafeFragment_to_reviewFragment,bundle)
 
