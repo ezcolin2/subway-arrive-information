@@ -46,9 +46,6 @@ class ReviewFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            title = it.getString("storeName")?:"정보 없음"
-//        }
 
 
     }
@@ -59,10 +56,13 @@ class ReviewFragment : Fragment() {
     ): View? {
 
         model.storeName.observe(viewLifecycleOwner){
-
+            binding.txtTitle.text=title
         }
         model.reviews.observe(viewLifecycleOwner){
+            commentList=model.reviews.value?:ArrayList<StoreComment>()
 
+            val commentAdapter = CommentAdapter(requireContext(), commentList)
+            binding.listView.adapter=commentAdapter
         }
         title = model.storeName.value.toString()
         Log.d("name",title)
@@ -70,44 +70,7 @@ class ReviewFragment : Fragment() {
         (activity as RealActivity).hideBottom()
         binding=FragmentReviewBinding.inflate(inflater)
         database= Firebase.database.reference
-        //commentList = ArrayList()
-        binding.txtTitle.text=title
-        commentList=model.reviews.value?:ArrayList<StoreComment>()
 
-        val commentAdapter = CommentAdapter(requireContext(), commentList)
-        binding.listView.adapter=commentAdapter
-
-        Log.d("name",title)
-
-//        database.child("cafe").child(title).child("comment").addValueEventListener(object:
-//            ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                var totalScore:Float = 0F;
-//                var totalCount:Int = 0;
-//
-//                for(snap in snapshot.children){
-//                    val comment:StoreComment = snap.getValue<StoreComment>()!!
-//
-//                    if(comment.time=="not"){
-//                        continue;
-//                    }
-//                    commentList.add(0,comment)
-//                    totalScore+=snap.child("score").getValue<Float>()?:0F
-//                    totalCount++
-//                }
-//                if(totalCount!=0) {
-//                    setScoreAndCount(title, totalScore / totalCount, totalCount)
-//                }
-//
-//
-//                commentAdapter.notifyDataSetChanged()
-//
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//
-//            }
-//        })
         binding.btnRegisterReview.setOnClickListener{
             val reviewDialog = LayoutInflater.from(requireContext()).inflate(R.layout.reviews_dialog,null)
             val reviewBuilder= AlertDialog.Builder(requireContext())
@@ -131,9 +94,9 @@ class ReviewFragment : Fragment() {
                 val editComment:String = reviewDialog.findViewById<EditText>(R.id.dialog_comment).text.toString()
 
                 val comment = StoreComment(uId,"seoha",editComment,stars,time)
-                findNavController().navigate(R.id.action_reviewFragment2_to_cafeFragment)
+                //findNavController().navigate(R.id.action_reviewFragment2_to_cafeFragment)
 
-                WriteFirebaseStore(comment,title).uploadComment()
+                model.setComment(comment)
             }
             btnCancel.setOnClickListener{
                 review.dismiss()
@@ -150,10 +113,7 @@ class ReviewFragment : Fragment() {
         database.child("cafe").child(storeName).child("totalCount").setValue(count)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        super.onViewCreated(view, savedInstanceState)
-    }
 
 
 }

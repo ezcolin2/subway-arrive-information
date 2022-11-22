@@ -45,60 +45,30 @@ class CafeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.cafeList.observe(viewLifecycleOwner){
-            arr=viewModel.cafeList.value!!
-        }
+
         binding = FragmentCafeBinding.inflate(inflater,container,false)
         (activity as RealActivity).visibleBottom()
-
-//        database.child("cafe").addValueEventListener(
-//            object : ValueEventListener{
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    if(snapshot==null){
-//                        return
-//                    }
-//                    for(snap in snapshot.children){
-//
-//                        val reviewNums:Int = snap.child("totalCount").getValue<Int>()?:0
-//                        val reviewStars:Float = snap.child("totalScore").getValue<Float>()?:0F
-//                        val name:String = snap.child("name").getValue<String>()?:"없음"
-//
-//
-//                        arr.add(Cafe(name,reviewNums,reviewStars))
-//                    }
-//                    adapter.notifyDataSetChanged()
-//                }
-//
-//                override fun onCancelled(error: DatabaseError) {
-//                    arr.add(Cafe("정보 없음",0,0F))
-//                }
-//            }
-//        )
-
-
-
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.cafeList.observe(viewLifecycleOwner){
+            arr=viewModel.cafeList.value!!
+            val adapter = CafeAdapter(requireContext(),arr)
+            adapter.notifyDataSetChanged()
+            binding.listView.adapter=adapter
+            val listener = ListClickListener()
+            binding.listView.onItemClickListener=listener
+        }
 
 
-        val arr=viewModel.cafeList.value!!
-
-
-        val adapter = CafeAdapter(requireContext(),arr)
-        adapter.notifyDataSetChanged()
-        binding.listView.adapter=adapter
-        val listener = ListClickListener()
-        binding.listView.onItemClickListener=listener
 
     }
     inner class ListClickListener: AdapterView.OnItemClickListener{
         override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
             viewModel.setStoreName(arr[position].cafeName)
-            val bundle = bundleOf("storeName" to arr[position].cafeName)
-            findNavController().navigate(R.id.action_cafeFragment_to_reviewFragment,bundle)
+            findNavController().navigate(R.id.action_cafeFragment_to_reviewFragment)
 
         }
 

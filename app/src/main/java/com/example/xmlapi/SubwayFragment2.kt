@@ -63,8 +63,8 @@ class SubwayFragment2 : Fragment() {
         val call = Api().apiRequest()
         lateinit var arr:Array<Data>
 
-        call.enqueue(object: Callback<Ticker> {
-            override fun onResponse(call: Call<Ticker>, response: Response<Ticker>) {
+        call.enqueue(object: Callback<SubwayApiData> {
+            override fun onResponse(call: Call<SubwayApiData>, response: Response<SubwayApiData>) {
                 val info = response.body()
                 arr = info?.realtimeArrivalList!!
 
@@ -76,7 +76,7 @@ class SubwayFragment2 : Fragment() {
 
             }
 
-            override fun onFailure(call: Call<Ticker>, t: Throwable) {
+            override fun onFailure(call: Call<SubwayApiData>, t: Throwable) {
                 Log.d("TTT",t.message!!)
                 call.cancel()
 
@@ -107,8 +107,8 @@ class SubwayFragment2 : Fragment() {
         lateinit var arr:Array<Data2>
         var nowPosition:Data2?=null
 
-        call.enqueue(object: Callback<Ticker2> {
-            override fun onResponse(call: Call<Ticker2>, response: Response<Ticker2>) {
+        call.enqueue(object: Callback<SubwayApiData2> {
+            override fun onResponse(call: Call<SubwayApiData2>, response: Response<SubwayApiData2>) {
                 binding.btnGang.text="성공"
                 val info = response.body()
                 binding.btnGang.text="성공2"
@@ -140,7 +140,7 @@ class SubwayFragment2 : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<Ticker2>, t: Throwable) {
+            override fun onFailure(call: Call<SubwayApiData2>, t: Throwable) {
                 binding.btnGang.text="실페"
                 Log.d("TTT",t.message!!)
                 call.cancel()

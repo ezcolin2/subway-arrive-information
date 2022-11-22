@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface ApiService2 {
     @GET("api/subway/"+BuildConfig.API_KEY+ "/json/realtimePosition/0/50/경의중앙선")
-    fun getInfo(): Call<Ticker2>
+    fun getInfo(): Call<SubwayApiData2>
 }
