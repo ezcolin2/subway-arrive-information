@@ -12,7 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class Api {
-    fun apiRequest():Call<Ticker>{
+    fun apiRequest():Call<SubwayApiData>{
         //retrofit 객체 생성
         val retrofit : Retrofit = Retrofit.Builder()
             .baseUrl("http://swopenapi.seoul.go.kr/")
@@ -24,7 +24,7 @@ class Api {
         val call = apiService.getInfo()
         return call
     }
-    fun apiRequest2():Call<Ticker2>{
+    fun apiRequest2():Call<SubwayApiData2>{
         val retrofit : Retrofit = Retrofit.Builder()
             .baseUrl("http://swopenapi.seoul.go.kr/")
             .addConverterFactory(GsonConverterFactory.create())

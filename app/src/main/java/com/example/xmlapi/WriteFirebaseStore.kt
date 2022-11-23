@@ -6,7 +6,7 @@ import com.google.firebase.ktx.Firebase
 
 class WriteFirebaseStore(val storeComment : StoreComment, val storeName : String) {
     lateinit var database : DatabaseReference
-    lateinit var h : StoreComment
+
     fun uploadComment(){
         var commentCount : Int = 0;
         var score : Float = storeComment.score;

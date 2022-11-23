@@ -28,8 +28,8 @@ class SubActivityGang : AppCompatActivity() {
         val call = Api().apiRequest()
         lateinit var arr:Array<Data>
 
-        call.enqueue(object: Callback<Ticker> {
-            override fun onResponse(call: Call<Ticker>, response: Response<Ticker>) {
+        call.enqueue(object: Callback<SubwayApiData> {
+            override fun onResponse(call: Call<SubwayApiData>, response: Response<SubwayApiData>) {
                 val info = response.body()
                 arr = info?.realtimeArrivalList!!
 
@@ -41,7 +41,7 @@ class SubActivityGang : AppCompatActivity() {
 
             }
 
-            override fun onFailure(call: Call<Ticker>, t: Throwable) {
+            override fun onFailure(call: Call<SubwayApiData>, t: Throwable) {
                 Log.d("TTT",t.message!!)
                 call.cancel()
 

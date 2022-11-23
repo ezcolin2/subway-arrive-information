@@ -45,9 +45,9 @@ class ForeGround : Service() {
                 lateinit var arr:Array<Data2>
                 var nowPosition:Data2?=null
 
-                call.enqueue(object: Callback<Ticker2> {
+                call.enqueue(object: Callback<SubwayApiData2> {
                     @RequiresApi(Build.VERSION_CODES.O)
-                    override fun onResponse(call: Call<Ticker2>, response: Response<Ticker2>) {
+                    override fun onResponse(call: Call<SubwayApiData2>, response: Response<SubwayApiData2>) {
                         val info = response.body()
                         Log.d("hello", info?.errorMessage?.message?:"no Error")
                         if(info?.realtimePositionList==null){
@@ -75,7 +75,7 @@ class ForeGround : Service() {
                         if(nowPosition?.statnNm=="화전"){
                             val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                             val vibrationEffect = VibrationEffect.createOneShot(3000,100)
-                            vibrator.vibrate(vibrationEffect)
+                            //vibrator.vibrate(vibrationEffect)
 
 
 
@@ -90,7 +90,7 @@ class ForeGround : Service() {
                         Log.d("호출",nowPosition?.statnNm?:"none")
                     }
 
-                    override fun onFailure(call: Call<Ticker2>, t: Throwable) {
+                    override fun onFailure(call: Call<SubwayApiData2>, t: Throwable) {
                         Log.d("TTT",t.message!!)
                         call.cancel()
 

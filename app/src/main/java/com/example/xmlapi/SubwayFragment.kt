@@ -13,7 +13,9 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil.setContentView
+import androidx.fragment.app.activityViewModels
 import com.example.xmlapi.databinding.FragmentSubwayBinding
+import com.example.xmlapi.viewmodel.Viewmodel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,6 +33,8 @@ private const val ARG_PARAM2 = "param2"
 class SubwayFragment : Fragment() {
     lateinit var binding:FragmentSubwayBinding
     lateinit var realActivity: RealActivity
+    lateinit var arr:Array<Data>
+    val model: Viewmodel by activityViewModels()
     var foregroundIsRunning = false
 
     override fun onAttach(context: Context) {
@@ -45,9 +49,13 @@ class SubwayFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        model.subways.observe(viewLifecycleOwner){
+            arr=model.subways.value!!
+        }
         binding=FragmentSubwayBinding.inflate(layoutInflater,container,false)
         binding.btnGang.setOnClickListener {
-            apiRequest()
+            val adapter = SubwayAdapter(requireContext(),arr)
+            binding.listView.adapter=adapter
         }
         binding.btnCanceled.setOnClickListener {
             foregroundIsRunning=false
@@ -63,8 +71,9 @@ class SubwayFragment : Fragment() {
         val call = Api().apiRequest()
         lateinit var arr:Array<Data>
 
-        call.enqueue(object: Callback<Ticker> {
-            override fun onResponse(call: Call<Ticker>, response: Response<Ticker>) {
+
+        call.enqueue(object: Callback<SubwayApiData> {
+            override fun onResponse(call: Call<SubwayApiData>, response: Response<SubwayApiData>) {
                 val info = response.body()
                 arr = info?.realtimeArrivalList!!
 
@@ -76,7 +85,7 @@ class SubwayFragment : Fragment() {
 
             }
 
-            override fun onFailure(call: Call<Ticker>, t: Throwable) {
+            override fun onFailure(call: Call<SubwayApiData>, t: Throwable) {
                 Log.d("TTT",t.message!!)
                 call.cancel()
 
@@ -107,8 +116,8 @@ class SubwayFragment : Fragment() {
         lateinit var arr:Array<Data2>
         var nowPosition:Data2?=null
 
-        call.enqueue(object: Callback<Ticker2> {
-            override fun onResponse(call: Call<Ticker2>, response: Response<Ticker2>) {
+        call.enqueue(object: Callback<SubwayApiData2> {
+            override fun onResponse(call: Call<SubwayApiData2>, response: Response<SubwayApiData2>) {
                 binding.btnGang.text="성공"
                 val info = response.body()
                 binding.btnGang.text="성공2"
@@ -140,7 +149,7 @@ class SubwayFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<Ticker2>, t: Throwable) {
+            override fun onFailure(call: Call<SubwayApiData2>, t: Throwable) {
                 binding.btnGang.text="실페"
                 Log.d("TTT",t.message!!)
                 call.cancel()
