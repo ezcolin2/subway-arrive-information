@@ -17,6 +17,7 @@ class Viewmodel : ViewModel() {
     private val _reviews = MutableLiveData<ArrayList<StoreComment>>()
     private val _storeName = MutableLiveData<String>("반점")
     private val _subwayList = MutableLiveData<Array<Data>>()
+
     init{
         repository.observeCafeList(_arr)
         repository.observeReviewList(_reviews,storeName.value!!)

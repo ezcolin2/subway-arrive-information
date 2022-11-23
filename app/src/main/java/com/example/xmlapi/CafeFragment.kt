@@ -46,7 +46,7 @@ class CafeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentCafeBinding.inflate(inflater,container,false)
+        binding = FragmentCafeBinding.inflate(inflater)
         (activity as RealActivity).visibleBottom()
         return binding.root
     }
