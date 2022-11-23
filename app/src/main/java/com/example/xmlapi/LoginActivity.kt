@@ -29,7 +29,6 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var mDbRef: DatabaseReference
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         KakaoSdk.init(this, "ee89ef027765bd90ca0248eb9fe9cf6d")
@@ -42,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
 
         //카카오 로그인 버튼 이벤트
         binding.btnKakaologin.setOnClickListener {
-            kakaoLogin()
+            kakaoLogIn()
         }
 
         //로그인 버튼 이벤트
@@ -59,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun kakaoLogin() {
+    private fun kakaoLogIn() {
         // 로그인 조합 예제
 
         val context = application.applicationContext
@@ -103,6 +102,7 @@ class LoginActivity : AppCompatActivity() {
                     val intent: Intent = Intent(this@LoginActivity, RealActivity::class.java)
                     startActivity(intent)
                     Toast.makeText(this,"로그인 성공", Toast.LENGTH_SHORT).show()
+                    //viewmodel에 이메일 저장 realfrag 이동 시 정보 저장
                     finish()
                 } else {
                     Toast.makeText(this,"로그인 실패", Toast.LENGTH_SHORT).show()
