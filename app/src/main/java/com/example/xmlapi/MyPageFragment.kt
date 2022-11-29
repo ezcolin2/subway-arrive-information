@@ -32,7 +32,6 @@ class MyPageFragment : Fragment() ,View.OnClickListener{
         super.onCreate(savedInstanceState)
         mAuth = Firebase.auth
         mDbRef = Firebase.database.reference
-        val user = Firebase.auth.currentUser
     }
 
     override fun onCreateView(
@@ -98,8 +97,9 @@ class MyPageFragment : Fragment() ,View.OnClickListener{
                 }
             }
 
-            val intent= Intent(activity,LoginActivity::class.java) //로그인 페이지 이동
+            val intent= Intent(activity,MainActivity::class.java) //로그인 페이지 이동
             startActivity(intent)
+            (activity as RealActivity).finish()
         }
     }
 

@@ -37,24 +37,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: FragmentMapBinding
-
     private var latitude: Double = 0.toDouble()
     private var longitude: Double = 0.toDouble()
-
     private lateinit var mLastLocation: Location
     private var mMarker: Marker?= null
-
-    //위치
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
+    private lateinit var mService: IGoogleAPIService
+    internal lateinit var currentPlace: MyPlaces
 
     companion object {
         private const val MY_PERMISSION_CODE: Int = 1000
     }
-
-    private lateinit var mService: IGoogleAPIService
-    internal lateinit var currentPlace: MyPlaces
 
     @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
@@ -64,10 +59,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         if(checkLocationPermission()) {
             buildLocationRequest()
             buildLocationCallBack()
-
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity as RealActivity)
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
         }
+
         binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.action_cafe -> nearByPlace("cafe")
@@ -76,7 +71,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
             true
         }
-
     }
 
     override fun onCreateView(
@@ -96,7 +90,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun nearByPlace(typePlace: String) {
         mMap.clear()
-
         val url = getUrl(latitude, longitude, typePlace)
 
         mService.getNearbyPlaces(url)
@@ -125,11 +118,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             }
 
                             markerOptions.snippet(i.toString())
-
                             mMap.addMarker(markerOptions)
                         }
                     }
                 }
+
                 override fun onFailure(call: Call<MyPlaces>, t: Throwable) {
                     Toast.makeText(activity as RealActivity,""+ t.message, Toast.LENGTH_SHORT).show()
                 }
@@ -165,7 +158,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     .title("Current Position")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                 mMarker = mMap.addMarker(markerOptions)
-
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f))
             }
         }
@@ -234,7 +226,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(activity as RealActivity, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.isMyLocationEnabled = true
         }
-
         mMap.uiSettings.isZoomControlsEnabled = true
     }
 

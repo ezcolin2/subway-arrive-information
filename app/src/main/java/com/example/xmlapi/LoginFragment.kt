@@ -1,16 +1,16 @@
 package com.example.xmlapi
 
 import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import com.example.xmlapi.databinding.ActivityLoginBinding
-import com.example.xmlapi.databinding.ActivityRealBinding
+import com.example.xmlapi.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -21,48 +21,51 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 
-class LoginActivity : AppCompatActivity() {
+class LoginFragment : Fragment() {
+    private lateinit var binding: FragmentLoginBinding
 
-    lateinit var binding: ActivityLoginBinding
-
-    lateinit var mAuth: FirebaseAuth
+    private lateinit var mAuth: FirebaseAuth
 
     private lateinit var mDbRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        KakaoSdk.init(this, "ee89ef027765bd90ca0248eb9fe9cf6d")
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        KakaoSdk.init((activity as MainActivity).applicationContext, "ee89ef027765bd90ca0248eb9fe9cf6d")
 
         mAuth = Firebase.auth
 
         mDbRef = Firebase.database.reference
+    }
 
-        //카카오 로그인 버튼 이벤트
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+
         binding.btnKakaologin.setOnClickListener {
             kakaoLogIn()
         }
 
-        //로그인 버튼 이벤트
         binding.btnLogin.setOnClickListener {
             val email = binding.emailEdit.text.toString()
             val password = binding.passwordEdit.text.toString()
 
             logIn(email, password)
         }
-        //회원가입 버튼 이벤트
+
         binding.btnSignup.setOnClickListener {
-            val intent: Intent = Intent(this@LoginActivity, SignupActivity::class.java)
+            val intent = Intent(activity as MainActivity, SignupActivity::class.java)
             startActivity(intent)
         }
+
+        return binding.root
     }
 
     private fun kakaoLogIn() {
-        // 로그인 조합 예제
 
-        val context = application.applicationContext
-        //카카오 계정 로그인
+        val context = (activity as MainActivity).applicationContext
+
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 Log.e(ContentValues.TAG, "카카오계정으로 로그인 실패", error)
@@ -72,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // 카카오톡 로그인
+
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
             UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
                 if (error != null) {
@@ -94,18 +97,18 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    // 로그인 함수
+
     private fun logIn(email: String, password:String) {
         mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
+            .addOnCompleteListener(activity as MainActivity) { task ->
                 if (task.isSuccessful) {
-                    val intent: Intent = Intent(this@LoginActivity, RealActivity::class.java)
+                    val intent: Intent = Intent(activity as MainActivity, RealActivity::class.java)
                     startActivity(intent)
-                    Toast.makeText(this,"로그인 성공", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity as MainActivity,"로그인 성공", Toast.LENGTH_SHORT).show()
                     //viewmodel에 이메일 저장 realfrag 이동 시 정보 저장
-                    finish()
+                    (activity as MainActivity).finish()
                 } else {
-                    Toast.makeText(this,"로그인 실패", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity as MainActivity,"로그인 실패", Toast.LENGTH_SHORT).show()
                     Log.d("Login", "Error: ${task.exception}")
                 }
             }
@@ -119,10 +122,10 @@ class LoginActivity : AppCompatActivity() {
             else if (user != null) {
                 Log.i(
                     ContentValues.TAG, "사용자 정보 요청 성공" +
-                        "\n회원번호: ${user.id}" +
-                        "\n이메일: ${user.kakaoAccount?.email}" +
-                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
-                        "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}")
+                            "\n회원번호: ${user.id}" +
+                            "\n이메일: ${user.kakaoAccount?.email}" +
+                            "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
+                            "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}")
 
                 val kname = "${user.kakaoAccount?.profile?.nickname}"
                 val kgender = "${user.kakaoAccount?.gender}"
@@ -138,23 +141,24 @@ class LoginActivity : AppCompatActivity() {
 
     private fun signUp(name: String, gender: String, email: String, id: String) {
         mAuth.createUserWithEmailAndPassword(email, id)
-            .addOnCompleteListener(this) { task ->
+            .addOnCompleteListener(activity as MainActivity) { task ->
                 if (task.isSuccessful) {
                     addUserToDatabase(name, gender, email, id)
                 }
                 else {
-                    val intent: Intent = Intent(this@LoginActivity, RealActivity::class.java)
+                    val intent: Intent = Intent(activity as MainActivity, RealActivity::class.java)
                     startActivity(intent)
-                    Toast.makeText(this,"카카오 로그인 성공", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity as MainActivity,"카카오 로그인 성공", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
     private fun addUserToDatabase(name:String, gender:String, email:String, uId: String) {
         mDbRef.child("user").child(uId).setValue(User(name, gender, email, uId))
-        val intent: Intent = Intent(this@LoginActivity, RealActivity::class.java)
+        val intent: Intent = Intent(activity as MainActivity, RealActivity::class.java)
         startActivity(intent)
-        Toast.makeText(this,"카카오 로그인 성공", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context,"카카오 로그인 성공", Toast.LENGTH_SHORT).show()
     }
+
 
 }

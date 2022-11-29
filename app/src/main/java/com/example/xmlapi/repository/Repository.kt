@@ -109,7 +109,7 @@ class Repository {
 
 
         database.getReference("cafe").child(storeName).child("comment").push().setValue(storeComment)
-        database.getReference("cafe").child(storeName).child("totalScore").push().setValue(score)
+        database.getReference("cafe").child(storeName).child("totalScore").setValue(score)
         database.getReference("user").child(storeComment.uId).child("comment").push().setValue(storeComment)
         //나중에 총 댓글 수도 확인하게끔 하기
     }
