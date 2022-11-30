@@ -8,6 +8,80 @@
     tools:context=".LoginFragment">
 
 
+<!--    <EditText-->
+<!--        android:id="@+id/password_edit"-->
+<!--        android:layout_width="331dp"-->
+<!--        android:layout_height="51dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:background="@drawable/edit_background"-->
+<!--        android:hint="password"-->
+<!--        android:inputType="numberPassword"-->
+<!--        android:paddingStart="15dp"-->
+<!--        android:textSize="14sp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/btn_kakaologin"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/email_edit" />-->
+
+<!--    <androidx.appcompat.widget.AppCompatButton-->
+<!--        android:id="@+id/btn_login"-->
+<!--        android:layout_width="160dp"-->
+<!--        android:layout_height="wrap_content"-->
+
+
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:background="@drawable/btn_background"-->
+<!--        android:text="로그인"-->
+<!--        android:textColor="#181600"-->
+<!--        android:textSize="17sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.159"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btn_kakaologin" />-->
+
+<!--    <androidx.appcompat.widget.AppCompatButton-->
+<!--        android:id="@+id/btn_signup"-->
+<!--        android:layout_width="160dp"-->
+<!--        android:layout_height="wrap_content"-->
+
+
+<!--        android:layout_marginStart="4dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:background="@drawable/edit_background"-->
+<!--        android:text="회원가입"-->
+<!--        android:textColor="#181600"-->
+<!--        android:textSize="17sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.13"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/btn_login"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btn_kakaologin" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/btn_kakaologin"-->
+<!--        android:layout_width="331dp"-->
+<!--        android:layout_height="51dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:src="@drawable/kakao_login_large_wide"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/btn_login"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/password_edit" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/email_edit"-->
+<!--        android:layout_width="331dp"-->
+<!--        android:layout_height="51dp"-->
+<!--        android:layout_marginTop="208dp"-->
+<!--        android:background="@drawable/edit_background"-->
+<!--        android:hint="Email"-->
+<!--        android:inputType="textEmailAddress"-->
+<!--        android:paddingStart="15dp"-->
+<!--        android:textSize="14sp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/password_edit"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
     <EditText
         android:id="@+id/password_edit"
         android:layout_width="331dp"
@@ -18,7 +92,6 @@
         android:inputType="numberPassword"
         android:paddingStart="15dp"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_kakaologin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_edit" />
@@ -33,11 +106,11 @@
         android:background="@drawable/btn_background"
         android:text="로그인"
         android:textColor="#181600"
-        android:textSize="17sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.159"
+        app:layout_constraintHorizontal_bias="0.131"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_kakaologin" />
+        app:layout_constraintTop_toBottomOf="@+id/password_edit" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_signup"
@@ -50,22 +123,22 @@
         android:background="@drawable/edit_background"
         android:text="회원가입"
         android:textColor="#181600"
-        android:textSize="17sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintHorizontal_bias="0.148"
         app:layout_constraintStart_toEndOf="@+id/btn_login"
-        app:layout_constraintTop_toBottomOf="@+id/btn_kakaologin" />
+        app:layout_constraintTop_toBottomOf="@+id/password_edit" />
 
     <ImageView
+
         android:id="@+id/btn_kakaologin"
         android:layout_width="331dp"
         android:layout_height="51dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/kakao_login_large_wide"
-        app:layout_constraintBottom_toTopOf="@+id/btn_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_edit" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_signup" />
 
     <EditText
         android:id="@+id/email_edit"

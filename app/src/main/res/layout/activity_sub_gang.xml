@@ -12,21 +12,29 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
+        <android.widget.Button
             android:id="@+id/btn_susaek"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:text="수색 방면" />
+            android:background="@drawable/btn_gang"
+            android:text="수색 방면"
+            android:textColor="#3E5F77"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
-        <Button
+        <android.widget.Button
             android:id="@+id/btn_gang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:text="강매 방면" />
+            android:background="@drawable/btn_gang"
+            android:text="강매 방면"
+            android:textColor="#3E5F77"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
