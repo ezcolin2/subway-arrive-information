@@ -1,29 +1,16 @@
 package com.example.xmlapi
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import androidx.core.os.bundleOf
-import androidx.core.view.children
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
-import androidx.navigation.NavHostController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xmlapi.databinding.FragmentCafeBinding
-import com.example.xmlapi.repository.Repository
-import com.example.xmlapi.viewmodel.Viewmodel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
-import com.google.firebase.ktx.Firebase
+import com.example.xmlapi.viewmodel.DataViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,9 +24,8 @@ private const val ARG_PARAM2 = "param2"
  */
 class CafeFragment : Fragment() {
     private lateinit var binding: FragmentCafeBinding
-    val viewModel:Viewmodel by activityViewModels()
+    val model:DataViewModel by activityViewModels()
     private lateinit var arr:ArrayList<Cafe>
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,13 +38,17 @@ class CafeFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.cafeList.observe(viewLifecycleOwner){
-            arr=viewModel.cafeList.value!!
-            val adapter = CafeAdapter(requireContext(),arr)
-            adapter.notifyDataSetChanged()
-            binding.listView.adapter=adapter
-            val listener = ListClickListener()
-            binding.listView.onItemClickListener=listener
+        model.cafeList.observe(viewLifecycleOwner){
+            arr=model.cafeList.value!!
+            val adapter = CafeAdapter2(this,arr)
+            binding.recView.layoutManager = LinearLayoutManager(requireContext())
+            binding.recView.adapter=adapter
+
+
+//            adapter.notifyDataSetChanged()
+//            binding.listView.adapter=adapter
+//            val listener = ListClickListener()
+//            binding.listView.onItemClickListener=listener
         }
 
 
@@ -67,11 +57,18 @@ class CafeFragment : Fragment() {
     inner class ListClickListener: AdapterView.OnItemClickListener{
         override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
-            viewModel.setStoreName(arr[position].cafeName)
+            model.setStoreName(arr[position].cafeName)
             findNavController().navigate(R.id.action_cafeFragment_to_reviewFragment)
 
         }
 
+    }
+
+
+
+    fun clickEvent(cafeName:String){
+        model.setStoreName(cafeName)
+        findNavController().navigate(R.id.action_cafeFragment_to_reviewFragment)
     }
 
 

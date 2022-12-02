@@ -103,6 +103,7 @@ class LoginFragment : Fragment() {
             .addOnCompleteListener(activity as MainActivity) { task ->
                 if (task.isSuccessful) {
                     val intent: Intent = Intent(activity as MainActivity, RealActivity::class.java)
+                    intent.putExtra("email",email)
                     startActivity(intent)
                     Toast.makeText(activity as MainActivity,"로그인 성공", Toast.LENGTH_SHORT).show()
                     //viewmodel에 이메일 저장 realfrag 이동 시 정보 저장
