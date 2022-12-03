@@ -123,7 +123,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
                                         BitmapDescriptorFactory.HUE_BLUE))
                             }
 
-                            markerOptions.snippet(i.toString())
+                            markerOptions.snippet(typePlace)
                             mMap.addMarker(markerOptions)
                         }
                     }
