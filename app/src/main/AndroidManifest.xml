@@ -27,13 +27,11 @@
             android:name=".ForeGround"
             android:enabled="true"
             android:exported="true">
-
         </service>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
-
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -48,13 +46,6 @@
                     android:host="oauth"
                     android:scheme="kakaoee89ef027765bd90ca0248eb9fe9cf6d" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".SignupActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
         <activity
             android:name=".StoreActivity"
