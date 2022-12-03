@@ -19,10 +19,11 @@ class DataViewModel : ViewModel() {
     private val _subwayList = MutableLiveData<Array<Data>>()
     private val _email = MutableLiveData<String>()
     private val _userInfo = MutableLiveData<User>()
+    private val _myReviews = MutableLiveData<ArrayList<StoreComment>>()
 
     init{
         repository.observeCafeList(_arr)
-        repository.observeReviewList(_reviews,storeName.value!!)
+        //repository.observeReviewList(_reviews,_storeName.value!!)
         repository.observeSubwayList(_subwayList)
 
     }
@@ -36,6 +37,9 @@ class DataViewModel : ViewModel() {
     }
     fun setComment(storeComment : StoreComment){
         repository.postComment(storeComment,_storeName.value!!)
+    }
+    fun getSubway(){
+        repository.observeSubwayList(_subwayList)
     }
 
 

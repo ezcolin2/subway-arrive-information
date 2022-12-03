@@ -9,7 +9,11 @@
         android:id="@+id/myPageFragment"
         android:name="com.example.xmlapi.MyPageFragment"
         android:label="fragment_my_page"
-        tools:layout="@layout/fragment_my_page" />
+        tools:layout="@layout/fragment_my_page" >
+        <action
+            android:id="@+id/action_myPageFragment_to_myCommentFragment"
+            app:destination="@id/myCommentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.xmlapi.MapFragment"
@@ -35,5 +39,14 @@
         <action
             android:id="@+id/action_reviewFragment2_to_cafeFragment"
             app:destination="@id/cafeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myCommentFragment"
+        android:name="com.example.xmlapi.MyCommentFragment"
+        android:label="fragment_my_comment"
+        tools:layout="@layout/fragment_my_comment" >
+        <action
+            android:id="@+id/action_myCommentFragment_to_myPageFragment"
+            app:destination="@id/myPageFragment" />
     </fragment>
 </navigation>

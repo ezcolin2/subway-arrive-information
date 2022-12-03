@@ -59,8 +59,7 @@ class Repository {
                     var totalCount:Int = 0;
 
                     for(snap in snapshot.children){
-                        val comment =StoreComment(snap.child("uid").getValue<String>()!!,snap.child("user_name").getValue<String>()!!,snap.child("comment").getValue<String>()!!,snap.child("score").getValue<Float>()!!,snap.child("time").getValue<String>()!!)
-
+                        val comment =snap.getValue<StoreComment>()!!
                         if(comment.time=="not"){
                             continue;
                         }
@@ -90,8 +89,9 @@ class Repository {
 
         call.enqueue(object: Callback<SubwayApiData> {
             override fun onResponse(call: Call<SubwayApiData>, response: Response<SubwayApiData>) {
-                val info = response.body()
-                subway.value= info?.realtimeArrivalList!!
+                response.body()?.realtimeArrivalList?.let{
+                    subway.value= it
+                }
 
             }
 

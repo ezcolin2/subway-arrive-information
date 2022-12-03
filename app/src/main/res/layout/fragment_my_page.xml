@@ -67,27 +67,6 @@
             android:textSize="15dp" />
 
         <TextView
-            android:id="@+id/btn_inform"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="32dp"
-            android:background="@drawable/bottom_stroke"
-            android:drawableRight="@drawable/arrow"
-            android:text="내 정보 보기"
-            android:padding="10dp"
-            android:textSize="15dp" />
-        <TextView
-            android:id="@+id/btn_good"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="32dp"
-            android:background="@drawable/bottom_stroke"
-            android:drawableRight="@drawable/arrow"
-            android:text="찜 목록 보기"
-            android:padding="10dp"
-            android:textSize="15dp" />
-
-        <TextView
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

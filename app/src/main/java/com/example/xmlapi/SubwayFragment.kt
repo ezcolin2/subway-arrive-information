@@ -24,7 +24,7 @@ private const val ARG_PARAM2 = "param2"
 class SubwayFragment : Fragment() {
     lateinit var binding:FragmentSubwayBinding
     lateinit var realActivity: RealActivity
-    lateinit var arr:Array<Data>
+    var arr:Array<Data>?=null
     val model: DataViewModel by activityViewModels()
     var foregroundIsRunning = false
 
@@ -41,13 +41,16 @@ class SubwayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         model.subways.observe(viewLifecycleOwner){
-            arr=model.subways.value!!
+            arr=model.subways.value
         }
         binding=FragmentSubwayBinding.inflate(layoutInflater,container,false)
         binding.btnGang.setOnClickListener {
-            val adapter = SubwayAdapter2(arr)
-            binding.recView.layoutManager= LinearLayoutManager(requireContext())
-            binding.recView.adapter=adapter
+            model.getSubway()
+            arr?.let {
+                val adapter = SubwayAdapter2(it)
+                binding.recView.layoutManager = LinearLayoutManager(requireContext())
+                binding.recView.adapter = adapter
+            }
         }
 //        binding.btnCanceled.setOnClickListener {
 //            foregroundIsRunning=false

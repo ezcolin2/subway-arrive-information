@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.xmlapi.databinding.FragmentMyPageBinding
 import com.example.xmlapi.viewmodel.DataViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -20,10 +21,7 @@ import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
 
 
-class MyPageFragment : Fragment() ,View.OnClickListener{
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class MyPageFragment : Fragment(){
     private lateinit var binding:FragmentMyPageBinding
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mDbRef: DatabaseReference
@@ -73,39 +71,9 @@ class MyPageFragment : Fragment() ,View.OnClickListener{
                 binding.txtEmail.text = kemail
             }
         }
-
-//        binding.txtName.text=userInfo.name
-//        binding.txtEmail.text=userInfo.email
-
-
-
-
-
-//        user?.let {
-//        mDbRef.child("user").addValueEventListener(object: ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                for(postSnapshot in snapshot.children) {
-//
-//
-//                    val currentUser = postSnapshot.getValue(User::class.java)
-//                    if(currentUser?.email==model.email.value) {
-//                        //binding.txtName.text = currentUser?.name
-//                        binding.txtName.text = postSnapshot.key
-//                        binding.txtEmail.text = currentUser?.email
-//                    }
-//                }
-//            }
-//            override fun onCancelled(error: DatabaseError) {
-//
-//            }
-//        })
-//        }
-        super.onViewCreated(view, savedInstanceState)
-        setOnClickListener()
-    }
-
-    private fun setOnClickListener(){
-        binding.btnComment.setOnClickListener(this)
+        binding.btnComment.setOnClickListener{
+            findNavController().navigate(R.id.action_myPageFragment_to_myCommentFragment)
+        }
 
         binding.btnLogout.setOnClickListener {
             //firebase auth에서 sign out 기능 호출
@@ -124,10 +92,11 @@ class MyPageFragment : Fragment() ,View.OnClickListener{
             startActivity(intent)
             (activity as RealActivity).finish()
         }
+
+        super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onClick(v:View){
-        //(activity as RealActivity).activateCafeInformActivity("반점")
-    }
+
+
 
 }

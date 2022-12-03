@@ -25,7 +25,7 @@ private const val ARG_PARAM2 = "param2"
 class CafeFragment : Fragment() {
     private lateinit var binding: FragmentCafeBinding
     val model:DataViewModel by activityViewModels()
-    private lateinit var arr:ArrayList<Cafe>
+    var arr:ArrayList<Cafe>?=null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,10 +39,13 @@ class CafeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         model.cafeList.observe(viewLifecycleOwner){
-            arr=model.cafeList.value!!
-            val adapter = CafeAdapter2(this,arr)
-            binding.recView.layoutManager = LinearLayoutManager(requireContext())
-            binding.recView.adapter=adapter
+            arr=model.cafeList.value
+            arr?.let{
+                val adapter = CafeAdapter2(this,it)
+                binding.recView.layoutManager = LinearLayoutManager(requireContext())
+                binding.recView.adapter=adapter
+            }
+
 
 
 //            adapter.notifyDataSetChanged()
@@ -54,15 +57,15 @@ class CafeFragment : Fragment() {
 
 
     }
-    inner class ListClickListener: AdapterView.OnItemClickListener{
-        override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-            model.setStoreName(arr[position].cafeName)
-            findNavController().navigate(R.id.action_cafeFragment_to_reviewFragment)
-
-        }
-
-    }
+//    inner class ListClickListener: AdapterView.OnItemClickListener{
+//        override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//
+//            model.setStoreName(arr[position].cafeName)
+//            findNavController().navigate(R.id.action_cafeFragment_to_reviewFragment)
+//
+//        }
+//
+//    }
 
 
 

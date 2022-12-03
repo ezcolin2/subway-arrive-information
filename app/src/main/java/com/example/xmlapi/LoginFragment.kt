@@ -154,6 +154,7 @@ class LoginFragment : Fragment() {
                 }
                 else {
                     val intent: Intent = Intent(activity as MainActivity, RealActivity::class.java)
+                    intent.putExtra("email",email)
                     startActivity(intent)
                     Toast.makeText(activity as MainActivity,"카카오 로그인 성공", Toast.LENGTH_SHORT).show()
                 }
