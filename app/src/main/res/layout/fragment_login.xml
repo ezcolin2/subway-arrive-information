@@ -8,6 +8,13 @@
     tools:context=".LoginFragment">
 
 
+    <FrameLayout
+        android:id="@+id/frm_loginfragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
     <EditText
         android:id="@+id/password_edit"
         android:layout_width="331dp"

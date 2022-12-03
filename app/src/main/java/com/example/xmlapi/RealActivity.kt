@@ -25,11 +25,14 @@ class RealActivity : AppCompatActivity() {
 
         database= Firebase.database.reference
         binding.bottomNav.setupWithNavController(binding.container.getFragment<NavHostFragment>().navController)
+    }
 
 
-
-
-
+    fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().run {
+            replace(binding.container.id, fragment)
+            commit()
+        }
     }
 
     fun serviceStart(num:String){

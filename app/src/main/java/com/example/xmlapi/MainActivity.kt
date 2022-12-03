@@ -1,25 +1,28 @@
 package com.example.xmlapi
 
-import android.annotation.SuppressLint
-import android.os.Build
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import com.example.xmlapi.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
-    val fragment_login = LoginFragment()
 
-    @SuppressLint("MissingPermission")
-    @RequiresApi(Build.VERSION_CODES.O)
+    val fragmentLogin = LoginFragment()
+
+    fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().run {
+            replace(binding.frmFragment.id, fragment)
+            commit()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.mainlayout, fragment_login)
-            .commit()
+
+        replaceFragment(fragmentLogin)
     }
 }

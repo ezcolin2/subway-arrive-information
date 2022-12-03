@@ -33,7 +33,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 @Suppress("DEPRECATION")
-class MapFragment : Fragment(), OnMapReadyCallback {
+class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: FragmentMapBinding
@@ -46,6 +46,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var locationCallback: LocationCallback
     private lateinit var mService: IGoogleAPIService
     internal lateinit var currentPlace: MyPlaces
+
+    val fragmentReview = ReviewFragment()
 
     companion object {
         private const val MY_PERMISSION_CODE: Int = 1000
@@ -159,6 +161,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                 mMarker = mMap.addMarker(markerOptions)
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f))
+                mMap.setOnInfoWindowClickListener(this@MapFragment)
             }
         }
     }
@@ -227,6 +230,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             mMap.isMyLocationEnabled = true
         }
         mMap.uiSettings.isZoomControlsEnabled = true
+    }
+
+    override fun onInfoWindowClick(marker: Marker) {
+        (activity as RealActivity).replaceFragment(fragmentReview)
     }
 
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
