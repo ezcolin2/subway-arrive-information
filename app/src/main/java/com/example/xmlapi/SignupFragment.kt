@@ -51,7 +51,6 @@ class SignupFragment : Fragment() {
     //회원가입 함수
     private fun signUp(name: String, gender: String, email: String, password: String) {
         if ((name.isNotEmpty()) || gender.isNotEmpty() || (email.isNotEmpty()) || password.isNotEmpty()) {
-
             mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity as MainActivity) { task ->
                     if (task.isSuccessful) {

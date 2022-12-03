@@ -9,9 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import com.example.xmlapi.databinding.FragmentLoginBinding
-import com.example.xmlapi.databinding.FragmentSignupBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -29,8 +27,6 @@ class LoginFragment : Fragment() {
     private lateinit var mAuth: FirebaseAuth
 
     private lateinit var mDbRef: DatabaseReference
-
-    val fragmentSignup = SignupFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +53,9 @@ class LoginFragment : Fragment() {
 
             logIn(email, password)
         }
+
         binding.btnSignup.setOnClickListener {
+            val fragmentSignup = SignupFragment()
             (activity as MainActivity).replaceFragment(fragmentSignup)
         }
 
@@ -102,21 +100,20 @@ class LoginFragment : Fragment() {
 
     private fun logIn(email: String, password:String) {
         if ((email.isNotEmpty()) || password.isNotEmpty()) {
-            mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(activity as MainActivity) { task ->
-                    if (task.isSuccessful) {
-                        val intent: Intent =
-                            Intent(activity as MainActivity, RealActivity::class.java)
-                        startActivity(intent)
-                        Toast.makeText(activity as MainActivity, "로그인 성공", Toast.LENGTH_SHORT)
-                            .show()
-                        (activity as MainActivity).finish()
-                    } else {
-                        Toast.makeText(activity as MainActivity, "로그인 실패", Toast.LENGTH_SHORT)
-                            .show()
-                        Log.d("Login", "Error: ${task.exception}")
-                    }
+        mAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(activity as MainActivity) { task ->
+                if (task.isSuccessful) {
+                    val intent: Intent = Intent(activity as MainActivity, RealActivity::class.java)
+                    intent.putExtra("email",email)
+                    startActivity(intent)
+                    Toast.makeText(activity as MainActivity,"로그인 성공", Toast.LENGTH_SHORT).show()
+                    //viewmodel에 이메일 저장 realfrag 이동 시 정보 저장
+                    (activity as MainActivity).finish()
+                } else {
+                    Toast.makeText(activity as MainActivity,"로그인 실패", Toast.LENGTH_SHORT).show()
+                    Log.d("Login", "Error: ${task.exception}")
                 }
+            }
         }
         else {
             Toast.makeText(activity as MainActivity, "이메일이나 비밀번호를 다시 확인해주세요", Toast.LENGTH_SHORT)

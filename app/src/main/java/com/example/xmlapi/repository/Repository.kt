@@ -19,6 +19,7 @@ class Repository {
     val cafeRef = database.getReference("cafe")
     lateinit var arr:ArrayList<Cafe>
     lateinit var commentList:ArrayList<StoreComment>
+    lateinit var user:User
     fun observeCafeList(arrCafe: MutableLiveData<ArrayList<Cafe>>){
 
         cafeRef.addValueEventListener(object : ValueEventListener {
@@ -100,6 +101,27 @@ class Repository {
 
             }
     })
+    }
+    fun observeUser(userInfo : MutableLiveData<User>,email:String){
+        database.getReference("user").addValueEventListener(object:ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                for(snap in snapshot.children){
+                    user = snap.getValue<User>()!!
+                    Log.d("hello",user.toString())
+                    if(user?.email==email){
+                        break
+                    }
+                }
+                userInfo.postValue(user)
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
     }
     fun postComment(storeComment : StoreComment, storeName : String){
         var commentCount : Int = 0;

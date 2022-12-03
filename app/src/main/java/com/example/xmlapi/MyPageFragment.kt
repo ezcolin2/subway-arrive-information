@@ -9,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.xmlapi.databinding.FragmentMyPageBinding
+import com.example.xmlapi.viewmodel.DataViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -25,6 +27,8 @@ class MyPageFragment : Fragment() ,View.OnClickListener{
     private lateinit var binding:FragmentMyPageBinding
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mDbRef: DatabaseReference
+    private val model : DataViewModel by activityViewModels()
+    private lateinit var userInfo : User
     val user = Firebase.auth.currentUser
 
 
@@ -40,6 +44,13 @@ class MyPageFragment : Fragment() ,View.OnClickListener{
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentMyPageBinding.inflate(inflater,container,false)
+        model.user.observe(viewLifecycleOwner){
+            userInfo=model.user.value!!
+            Log.d("hello",userInfo.uid)
+            binding.txtEmail.text=userInfo.email
+            binding.txtName.text=userInfo.name
+        }
+
         return binding.root
     }
 
@@ -63,20 +74,32 @@ class MyPageFragment : Fragment() ,View.OnClickListener{
             }
         }
 
-        user?.let {
-        mDbRef.child("user").addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(postSnapshot in snapshot.children) {
-                    val currentUser = postSnapshot.getValue(User::class.java)
-                    binding.txtName.text = currentUser?.name
-                    binding.txtEmail.text = currentUser?.email
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
+//        binding.txtName.text=userInfo.name
+//        binding.txtEmail.text=userInfo.email
 
-            }
-        })
-        }
+
+
+
+
+//        user?.let {
+//        mDbRef.child("user").addValueEventListener(object: ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                for(postSnapshot in snapshot.children) {
+//
+//
+//                    val currentUser = postSnapshot.getValue(User::class.java)
+//                    if(currentUser?.email==model.email.value) {
+//                        //binding.txtName.text = currentUser?.name
+//                        binding.txtName.text = postSnapshot.key
+//                        binding.txtEmail.text = currentUser?.email
+//                    }
+//                }
+//            }
+//            override fun onCancelled(error: DatabaseError) {
+//
+//            }
+//        })
+//        }
         super.onViewCreated(view, savedInstanceState)
         setOnClickListener()
     }

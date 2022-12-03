@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.xmlapi.databinding.ActivityRealBinding
+import com.example.xmlapi.viewmodel.DataViewModel
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -18,10 +21,14 @@ import com.google.firebase.ktx.Firebase
 class RealActivity : AppCompatActivity() {
     lateinit var binding:ActivityRealBinding
     private lateinit var database: DatabaseReference
+    private val model : DataViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityRealBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val email = intent.getStringExtra("email")!!
+        model.setEmail(email)
 
         database= Firebase.database.reference
         binding.bottomNav.setupWithNavController(binding.container.getFragment<NavHostFragment>().navController)
