@@ -17,10 +17,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.xmlapi.Common.Common
 import com.example.xmlapi.Model.MyPlaces
 import com.example.xmlapi.Remote.IGoogleAPIService
 import com.example.xmlapi.databinding.FragmentMapBinding
+import com.example.xmlapi.viewmodel.DataViewModel
 import com.google.android.gms.location.*
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -46,6 +49,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     private lateinit var locationCallback: LocationCallback
     private lateinit var mService: IGoogleAPIService
     internal lateinit var currentPlace: MyPlaces
+    private val model : DataViewModel by activityViewModels()
 
     val fragmentReview = ReviewFragment()
 
@@ -233,7 +237,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     }
 
     override fun onInfoWindowClick(marker: Marker) {
-        (activity as RealActivity).replaceFragment(fragmentReview)
+        model.setStoreName(marker.title!!)
+        findNavController().navigate(R.id.action_mapFragment_to_reviewFragment2)
     }
 
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {

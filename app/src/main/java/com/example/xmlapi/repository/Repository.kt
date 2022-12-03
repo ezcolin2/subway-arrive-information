@@ -34,7 +34,8 @@ class Repository {
                     for(snap in snapshot.children){
                         val reviewNums:Int = snap.child("totalCount").getValue<Int>()?:0
                         val reviewStars:Float = snap.child("totalScore").getValue<Float>()?:0F
-                        val name:String = snap.child("name").getValue<String>()?:"없음"
+
+                        val name:String = snap.key?:"없음"
                         arr.add(Cafe(name,reviewNums,reviewStars))
 
                     }
