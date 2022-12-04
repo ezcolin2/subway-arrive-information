@@ -1,43 +1,30 @@
 package com.example.xmlapi
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.RatingBar
-import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.xmlapi.databinding.ListCommentBinding
 
-class CommentAdapter(val context: Context, val commentList:ArrayList<StoreComment>):
-    BaseAdapter()
-{
+class CommentAdapter(val storeComment: ArrayList<StoreComment>)
+    : RecyclerView.Adapter<CommentAdapter.Holder>() {
 
-    override fun getCount(): Int {
-        return commentList.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val binding = ListCommentBinding.inflate(LayoutInflater.from(parent.context))
+        return Holder(binding)
     }
 
-    override fun getItem(position: Int): Any {
-        return commentList[position]
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.bind(storeComment[position])
     }
 
-    override fun getItemId(position: Int): Long {
-        return 0
+    override fun getItemCount() = storeComment.size
+
+    class Holder(private val binding: ListCommentBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(storeComment: StoreComment) {
+            binding.writerComment.text = storeComment.comment
+            binding.writerName.text = storeComment.user_name
+            binding.writerTime.text = storeComment.time
+            binding.writerRating.rating = storeComment.score
+        }
     }
-
-    override fun getView(position:Int, convertView: View?, parent: ViewGroup?): View {
-        var view: View = LayoutInflater.from(context).inflate(R.layout.comment_list,null)
-
-        val name = view.findViewById<TextView>(R.id.writer_name)
-        val score = view.findViewById<RatingBar>(R.id.writer_rating)
-        val comment = view.findViewById<TextView>(R.id.writer_comment)
-        val time = view.findViewById<TextView>(R.id.writer_time)
-        val comments = commentList[position]
-        name.text=comments.user_name
-        score.rating=comments.score.toFloat()
-        comment.text=comments.comment
-        time.text=comments.time
-        return view
-
-    }
-
 }

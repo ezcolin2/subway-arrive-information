@@ -45,6 +45,10 @@ class SignupFragment : Fragment() {
 
             signUp(name, gender, email, password)
         }
+        binding.btnToLogin.setOnClickListener {
+            val fragmentLogin = LoginFragment()
+            (activity as MainActivity).replaceFragment(fragmentLogin)
+        }
 
         return binding.root
     }
@@ -56,7 +60,7 @@ class SignupFragment : Fragment() {
                     if (task.isSuccessful) {
                         Toast.makeText(activity as MainActivity, "회원가입 성공", Toast.LENGTH_SHORT)
                             .show()
-                        val intent: Intent =
+                        val intent =
                             Intent(activity as MainActivity, MainActivity::class.java)
                         startActivity(intent)
                         addUserToDatabase(name, gender, email, mAuth.currentUser?.uid!!)

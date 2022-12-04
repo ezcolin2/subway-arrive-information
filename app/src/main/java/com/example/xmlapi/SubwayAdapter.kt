@@ -1,41 +1,30 @@
 package com.example.xmlapi
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.xmlapi.databinding.ListSubwayBinding
 
-class SubwayAdapter(val context: Context, val subwayList:Array<Data>):BaseAdapter()
-{
+    class SubwayAdapter(val subway: Array<SubwayData>)
+        : RecyclerView.Adapter<SubwayAdapter.Holder>(){
 
-    override fun getCount(): Int {
-        return subwayList.size
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+            val binding = ListSubwayBinding.inflate(LayoutInflater.from(parent.context))
+            return Holder(binding)
+        }
+
+        override fun onBindViewHolder(holder: Holder, position: Int) {
+            holder.bind(subway[position])
+        }
+
+        override fun getItemCount() = subway.size
+
+        class Holder(private val binding: ListSubwayBinding) : RecyclerView.ViewHolder(binding.root) {
+            fun bind(subway: SubwayData) {
+                binding.arrival.text = subway.arvlMsg2
+                binding.heading.text = subway.subwayHeading
+                binding.time.text = subway.btrainNo
+                binding.trainNo.text = subway.trainLineNm
+            }
+        }
     }
-
-    override fun getItem(position: Int): Any {
-        return subwayList[position]
-    }
-
-    override fun getItemId(position: Int): Long {
-        return 0
-    }
-
-    override fun getView(position:Int,convertView:View?,parent:ViewGroup?): View {
-        var view:View = LayoutInflater.from(context).inflate(R.layout.list_subway,null)
-        val trainLineNm = view.findViewById<TextView>(R.id.heading)
-        val arvlMsg2 = view.findViewById<TextView>(R.id.arrival)
-        val recptnDt = view.findViewById<TextView>(R.id.time)
-        val btrainNo = view.findViewById<TextView>(R.id.train_no)
-
-        val subway = subwayList[position]
-        trainLineNm.text=subway.trainLineNm
-        arvlMsg2.text=subway.arvlMsg2
-        recptnDt.text=subway.recptnDt
-        btrainNo.text=subway.btrainNo
-        return view
-
-    }
-
-}

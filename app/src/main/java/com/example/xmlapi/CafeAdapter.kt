@@ -1,39 +1,36 @@
 package com.example.xmlapi
 
-import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.RatingBar
-import android.widget.TextView
-import com.example.xmlapi.databinding.FragmentCafeBinding
+import androidx.recyclerview.widget.RecyclerView
+import com.example.xmlapi.databinding.ListCafeBinding
 
-class CafeAdapter(val context: Context,val arr:ArrayList<Cafe>):BaseAdapter() {
-    override fun getCount(): Int {
-        return arr.size
+class CafeAdapter(val context:CafeFragment, val cafe : ArrayList<Cafe>)
+    : RecyclerView.Adapter<CafeAdapter.Holder>() {
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val binding = ListCafeBinding.inflate(LayoutInflater.from(parent.context))
+        return Holder(context,binding)
     }
 
-    override fun getItem(p0: Int): Any {
-        return arr[p0]
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.bind(cafe[position])
     }
 
-    override fun getItemId(p0: Int): Long {
-        return 0
-    }
+    override fun getItemCount() = cafe.size
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-
-        var view :View = LayoutInflater.from(context).inflate(R.layout.list_cafe,null)
-        val cafeName = view.findViewById<TextView>(R.id.txt_cafe)
-        val cafeRatings = view.findViewById<RatingBar>(R.id.txt_rating)
-        val cafeRatingsNum = view.findViewById<TextView>(R.id.txt_rating_num)
-        val cafe = arr[position]
-        cafeName.text = cafe.cafeName
-        cafeRatingsNum.text = cafe.ratings.toString()
-        cafeRatings.rating = cafe.ratings
-        return view
-
-
+    class Holder(val context:CafeFragment,private val binding: ListCafeBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(cafe: Cafe) {
+            binding.txtCafe.text = cafe.cafeName
+            binding.txtRatingNum.text = String.format("%.2f",cafe.ratings)
+            binding.txtRating.rating = cafe.ratings
+            binding.txtReviewNum.text = "리뷰 수 : ${cafe.nums}"
+            binding.root.setOnClickListener {
+                context.clickEvent(cafe.cafeName)
+                Log.d("cafe",cafe.cafeName)
+            }
+        }
     }
 }

@@ -51,7 +51,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     internal lateinit var currentPlace: MyPlaces
     private val model : DataViewModel by activityViewModels()
 
-    val fragmentReview = ReviewFragment()
 
     companion object {
         private const val MY_PERMISSION_CODE: Int = 1000
@@ -123,7 +122,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
                                         BitmapDescriptorFactory.HUE_BLUE))
                             }
 
-                            markerOptions.snippet(i.toString())
+                            markerOptions.snippet(typePlace)
                             mMap.addMarker(markerOptions)
                         }
                     }

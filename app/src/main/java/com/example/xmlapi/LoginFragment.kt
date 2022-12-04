@@ -107,7 +107,7 @@ class LoginFragment : Fragment() {
                     intent.putExtra("email",email)
                     startActivity(intent)
                     Toast.makeText(activity as MainActivity,"로그인 성공", Toast.LENGTH_SHORT).show()
-                    //viewmodel에 이메일 저장 realfrag 이동 시 정보 저장
+
                     (activity as MainActivity).finish()
                 } else {
                     Toast.makeText(activity as MainActivity,"로그인 실패", Toast.LENGTH_SHORT).show()

@@ -4,5 +4,5 @@ import java.util.*
 
 data class SubwayApiData(
     val errorMessage: Objects,
-    val realtimeArrivalList:Array<Data>
+    val realtimeArrivalList:Array<SubwayData>
 )

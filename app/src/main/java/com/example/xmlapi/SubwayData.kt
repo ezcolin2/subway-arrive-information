@@ -2,7 +2,7 @@ package com.example.xmlapi
 
 
 
-data class Data(
+data class SubwayData(
     var trainLineNm:String,
     var arvlMsg2:String,
     var subwayHeading:String,

@@ -1,7 +1,6 @@
 package com.example.xmlapi.repository
 
 import android.util.Log
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.MutableLiveData
 import com.example.xmlapi.*
 import com.google.firebase.database.DataSnapshot
@@ -56,13 +55,13 @@ class Repository {
             .addValueEventListener(object:ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     commentList=ArrayList<StoreComment>()
-                    var totalScore:Float = 0F;
-                    var totalCount:Int = 0;
+                    var totalScore:Float = 0F
+                    var totalCount:Int = 0
 
                     for(snap in snapshot.children){
                         val comment =snap.getValue<StoreComment>()!!
                         if(comment.time=="not"){
-                            continue;
+                            continue
                         }
                         commentList.add(0,comment)
                         totalScore+=snap.child("score").getValue<Float>()?:0F
@@ -84,9 +83,33 @@ class Repository {
 
             })
     }
-    fun observeSubwayList(subway:MutableLiveData<Array<Data>>){
+    fun observeMyCommentList(myReviews : MutableLiveData<ArrayList<StoreComment>>,uid:String){
+
+        database.getReference("user").child(uid).child("comment")
+            .addValueEventListener(object:ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    commentList=ArrayList<StoreComment>()
+
+                    for(snap in snapshot.children){
+                        val comment =snap.getValue<StoreComment>()!!
+                        if(comment.time=="not"){
+                            continue
+                        }
+                        commentList.add(0,comment)
+                    }
+
+                    myReviews.postValue(commentList)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+
+            })
+
+
+    }
+    fun observeSubwayList(subway:MutableLiveData<Array<SubwayData>>){
         val call = Api().apiRequest()
-        lateinit var arr:Array<Data>
 
         call.enqueue(object: Callback<SubwayApiData> {
             override fun onResponse(call: Call<SubwayApiData>, response: Response<SubwayApiData>) {
@@ -106,10 +129,9 @@ class Repository {
     fun observeUser(userInfo : MutableLiveData<User>,email:String){
         database.getReference("user").addValueEventListener(object:ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-
                 for(snap in snapshot.children){
+                    if(snap.child("email").getValue()==null) continue
                     user = snap.getValue<User>()!!
-                    Log.d("hello",user.toString())
                     if(user?.email==email){
                         break
                     }
@@ -125,8 +147,7 @@ class Repository {
         })
     }
     fun postComment(storeComment : StoreComment, storeName : String){
-        var commentCount : Int = 0;
-        var score : Float = storeComment.score;
+        val score : Float = storeComment.score
 
 
 
@@ -134,10 +155,7 @@ class Repository {
         database.getReference("cafe").child(storeName).child("comment").push().setValue(storeComment)
         database.getReference("cafe").child(storeName).child("totalScore").setValue(score)
         database.getReference("user").child(storeComment.uId).child("comment").push().setValue(storeComment)
-        //나중에 총 댓글 수도 확인하게끔 하기
-    }
-
-    fun postReview(newValue:String){
 
     }
+
 }

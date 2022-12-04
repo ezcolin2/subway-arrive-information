@@ -5,7 +5,6 @@ data class User(
     val gender: String,
     val email:String,
     val uid:String,
-
     ){
     constructor():this("","","", "")
 }

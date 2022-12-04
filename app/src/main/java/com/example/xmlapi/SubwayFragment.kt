@@ -11,144 +11,36 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xmlapi.databinding.FragmentSubwayBinding
 import com.example.xmlapi.viewmodel.DataViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SubwayFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SubwayFragment : Fragment() {
-    lateinit var binding:FragmentSubwayBinding
+    lateinit var binding: FragmentSubwayBinding
     lateinit var realActivity: RealActivity
-    var arr:Array<Data>?=null
+    var arr: Array<SubwayData>? = null
     val model: DataViewModel by activityViewModels()
-    var foregroundIsRunning = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         realActivity = context as RealActivity
     }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        model.subways.observe(viewLifecycleOwner){
-            arr=model.subways.value
+        model.subways.observe(viewLifecycleOwner) {
+            model.getSubway()
+            arr = model.subways.value
         }
-        binding=FragmentSubwayBinding.inflate(layoutInflater,container,false)
+        binding = FragmentSubwayBinding.inflate(layoutInflater, container, false)
         binding.btnGang.setOnClickListener {
             model.getSubway()
             arr?.let {
-                val adapter = SubwayAdapter2(it)
+                val adapter = SubwayAdapter(it)
                 binding.recView.layoutManager = LinearLayoutManager(requireContext())
                 binding.recView.adapter = adapter
             }
         }
-//        binding.btnCanceled.setOnClickListener {
-//            foregroundIsRunning=false
-//            (activity as RealActivity).serviceStop()
-//        }
+
         return binding.root
     }
-
-
-//    private fun apiRequest(){
-//
-//        val call = Api().apiRequest()
-//        lateinit var arr:Array<Data>
-//
-//
-//        call.enqueue(object: Callback<SubwayApiData> {
-//            override fun onResponse(call: Call<SubwayApiData>, response: Response<SubwayApiData>) {
-//                val info = response.body()
-//                arr = info?.realtimeArrivalList!!
-//
-//
-//                val Adapter = SubwayAdapter(requireContext(), arr)
-//                binding.listView.adapter=Adapter
-//                var listener = ListClickListener()
-//                binding.listView.onItemClickListener = listener
-//
-//            }
-//
-//            override fun onFailure(call: Call<SubwayApiData>, t: Throwable) {
-//                Log.d("TTT",t.message!!)
-//                call.cancel()
-//
-//            }
-//            inner class ListClickListener: AdapterView.OnItemClickListener{
-//                override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-//                    if(foregroundIsRunning){
-//                        return
-//                    }
-//
-//                    foregroundIsRunning=true
-//                    val trainNo = arr[position].btrainNo
-//                    Log.d("train no",trainNo)
-//                    setPosition(trainNo)
-//                    (activity as RealActivity).serviceStart(trainNo)
-//
-//
-//                }
-//
-//            }
-//        }
-//        )
-//    }
-//
-//    private fun setPosition(num:String){
-//
-//        val call = Api().apiRequest2()
-//        lateinit var arr:Array<Data2>
-//        var nowPosition:Data2?=null
-//
-//        call.enqueue(object: Callback<SubwayApiData2> {
-//            override fun onResponse(call: Call<SubwayApiData2>, response: Response<SubwayApiData2>) {
-//                binding.btnGang.text="성공"
-//                val info = response.body()
-//                binding.btnGang.text="성공2"
-//                Log.d("hello", info?.errorMessage?.message?:"no Error")
-//                if(info?.realtimePositionList==null){
-//                    binding.txtNow.text="없음"
-//                    binding.txtTrainName.text="선택하세요"
-//                    binding.txtLast.text=""
-//                    binding.txtTime.text=""
-//                    binding.txtNum.text=""
-//                    return
-//
-//                }
-//
-//                binding.btnGang.text="성공3"
-//                arr=info?.realtimePositionList
-//
-//                for(i in arr.indices){
-//                    binding.btnGang.text = arr[i].statnNm
-//                    if(arr[i].trainNo==num){
-//                        nowPosition = arr[i]
-//                        binding.txtNow.text = nowPosition!!.statnNm
-//                        binding.txtTrainName.text = "경의중앙선"
-//                        binding.txtLast.text = nowPosition!!.statnTnm
-//                        binding.txtTime.text = nowPosition!!.recptnDt
-//                        binding.txtNum.text = nowPosition!!.trainNo
-//                        break
-//                    }
-//                }
-//}
-//
-//override fun onFailure(call: Call<SubwayApiData2>, t: Throwable) {
-//    binding.btnGang.text="실페"
-//    Log.d("TTT",t.message!!)
-//    call.cancel()
-//
-//}
-//})
-//}
 }
