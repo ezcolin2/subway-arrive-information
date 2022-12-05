@@ -13,5 +13,6 @@ dependencyResolutionManagement {
         maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
     }
 }
+
 rootProject.name = "xmlapi"
 include ':app'
