@@ -14,20 +14,14 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-
 class SignupFragment : Fragment() {
-
     private lateinit var binding: FragmentSignupBinding
-
     private lateinit var mAuth: FirebaseAuth
-
     private lateinit var mDbRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         mAuth = Firebase.auth
-
         mDbRef = Firebase.database.reference
     }
 
@@ -36,23 +30,20 @@ class SignupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSignupBinding.inflate(inflater, container, false)
-
         binding.btnSignup.setOnClickListener {
             val name = binding.nameEdit.text.toString().trim()
             val gender = binding.genderEdit.text.toString().trim()
             val email = binding.emailEdit.text.toString().trim()
             val password = binding.passwordEdit.text.toString().trim()
-
             signUp(name, gender, email, password)
         }
         binding.btnToLogin.setOnClickListener {
             val fragmentLogin = LoginFragment()
             (activity as MainActivity).replaceFragment(fragmentLogin)
         }
-
         return binding.root
     }
-    //회원가입 함수
+
     private fun signUp(name: String, gender: String, email: String, password: String) {
         if ((name.isNotEmpty()) || gender.isNotEmpty() || (email.isNotEmpty()) || password.isNotEmpty()) {
             mAuth.createUserWithEmailAndPassword(email, password)

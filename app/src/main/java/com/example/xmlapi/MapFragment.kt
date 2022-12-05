@@ -51,7 +51,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     internal lateinit var currentPlace: MyPlaces
     private val model : DataViewModel by activityViewModels()
 
-
     companion object {
         private const val MY_PERMISSION_CODE: Int = 1000
     }
@@ -60,14 +59,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     private val callback = OnMapReadyCallback { googleMap ->
         mMap = googleMap
         mService = Common.googleAPIService
-
         if(checkLocationPermission()) {
             buildLocationRequest()
             buildLocationCallBack()
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity as RealActivity)
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
         }
-
         binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.action_cafe -> nearByPlace("cafe")
@@ -96,12 +93,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     private fun nearByPlace(typePlace: String) {
         mMap.clear()
         val url = getUrl(latitude, longitude, typePlace)
-
         mService.getNearbyPlaces(url)
             .enqueue(object: Callback<MyPlaces> {
                 override fun onResponse(call: Call<MyPlaces>, response: Response<MyPlaces>) {
                     currentPlace = response.body()!!
-
                     if (response.isSuccessful) {
                         for (i in 0 until response.body()!!.results!!.size) {
                             val markerOptions = MarkerOptions()
@@ -110,7 +105,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
                             val lng = googlePlace.geometry!!.location!!.lng
                             val placeName = googlePlace.name
                             val latLng = LatLng(lat, lng)
-
                             markerOptions.position(latLng)
                             markerOptions.title(placeName)
                             when (typePlace) {
@@ -121,13 +115,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
                                     BitmapDescriptorFactory.defaultMarker(
                                         BitmapDescriptorFactory.HUE_BLUE))
                             }
-
                             markerOptions.snippet(typePlace)
                             mMap.addMarker(markerOptions)
                         }
                     }
                 }
-
                 override fun onFailure(call: Call<MyPlaces>, t: Throwable) {
                     Toast.makeText(activity as RealActivity,""+ t.message, Toast.LENGTH_SHORT).show()
                 }
@@ -140,7 +132,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         googlePlaceUrl.append("&radius=5000")
         googlePlaceUrl.append("&type=$typePlace")
         googlePlaceUrl.append("&key=AIzaSyAM-KgUMlHOGrOiJf6YI08tA5tokRDGLY4")
-
         Log.d("URL_DEBUG", googlePlaceUrl.toString())
         return googlePlaceUrl.toString()
     }
@@ -148,15 +139,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     private fun buildLocationCallBack() {
         locationCallback = object: LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
-                mLastLocation = p0.locations[p0.locations.size-1]  // 마지막 위치 저장
-
+                mLastLocation = p0.locations[p0.locations.size-1]
                 if (mMarker != null) {
                     mMarker!!.remove()
                 }
-
                 latitude = mLastLocation.latitude
                 longitude = mLastLocation.longitude
-
                 val latLng = LatLng(latitude, longitude)
                 val markerOptions = MarkerOptions()
                     .position(latLng)
@@ -214,7 +202,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
                         }
                 }
                 else {
-                    Toast.makeText(activity as RealActivity, "Permission Denied", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity as RealActivity, "권한이 거부되었습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -228,7 +216,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
         if (ContextCompat.checkSelfPermission(activity as RealActivity, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.isMyLocationEnabled = true
         }

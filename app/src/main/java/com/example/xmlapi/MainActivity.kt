@@ -1,6 +1,5 @@
 package com.example.xmlapi
 
-
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -12,18 +11,10 @@ class MainActivity : AppCompatActivity() {
     val fragmentLogin = LoginFragment()
     var waitTime = 0L
 
-    fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().run {
-            replace(binding.frmFragment.id, fragment)
-            commit()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         replaceFragment(fragmentLogin)
     }
 
@@ -36,6 +27,13 @@ class MainActivity : AppCompatActivity() {
         }
         if (System.currentTimeMillis() <= waitTime + 2500) {
             finishAffinity()
+        }
+    }
+
+    fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().run {
+            replace(binding.frmFragment.id, fragment)
+            commit()
         }
     }
 }

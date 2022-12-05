@@ -1,12 +1,10 @@
 package com.example.xmlapi
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -18,30 +16,20 @@ import com.google.firebase.ktx.Firebase
 
 @Suppress("DEPRECATION")
 class RealActivity : AppCompatActivity() {
-    lateinit var binding:ActivityRealBinding
+    private lateinit var binding:ActivityRealBinding
     private lateinit var database: DatabaseReference
     private val model : DataViewModel by viewModels()
     var waitTime = 0L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityRealBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val email = intent.getStringExtra("email")!!
         model.setEmail(email)
-
         database= Firebase.database.reference
         binding.bottomNav.setupWithNavController(binding.container.getFragment<NavHostFragment>().navController)
     }
-
-
-    fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().run {
-            replace(binding.container.id, fragment)
-            commit()
-        }
-    }
-
 
     fun hideBottom(){
         binding.bottomNav.visibility=View.GONE
