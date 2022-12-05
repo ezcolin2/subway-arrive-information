@@ -34,6 +34,7 @@ class SubwayFragment : Fragment() {
         binding = FragmentSubwayBinding.inflate(layoutInflater, container, false)
         binding.btnGang.setOnClickListener {
             model.getSubway()
+            arr = model.subways.value
             arr?.let {
                 val adapter = SubwayAdapter(it)
                 binding.recView.layoutManager = LinearLayoutManager(requireContext())

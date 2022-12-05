@@ -24,17 +24,6 @@ class Api {
         val call = apiService.getInfo()
         return call
     }
-    fun apiRequest2():Call<SubwayApiData2>{
-        val retrofit : Retrofit = Retrofit.Builder()
-            .baseUrl("http://swopenapi.seoul.go.kr/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        //service 객체
-        val apiService:ApiService2 = retrofit.create(ApiService2::class.java)
-        //call 객체
-        val call = apiService.getInfo()
-        return call
-    }
 
 
 
