@@ -25,11 +25,6 @@ class Repository {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     arr=ArrayList<Cafe>()
 
-                    if(snapshot==null){
-                        arr.add(Cafe("name",0,0F))
-                        arrCafe.value=arr
-                        return
-                    }
                     for(snap in snapshot.children){
                         val reviewNums:Int = snap.child("totalCount").getValue<Int>()?:0
                         val reviewStars:Float = snap.child("totalScore").getValue<Float>()?:0F
@@ -59,10 +54,7 @@ class Repository {
                     var totalCount:Int = 0
 
                     for(snap in snapshot.children){
-                        val comment =snap.getValue<StoreComment>()!!
-                        if(comment.time=="not"){
-                            continue
-                        }
+                        val comment =snap.getValue<StoreComment>()?:continue
                         commentList.add(0,comment)
                         totalScore+=snap.child("score").getValue<Float>()?:0F
                         totalCount++
@@ -91,10 +83,8 @@ class Repository {
                     commentList=ArrayList<StoreComment>()
 
                     for(snap in snapshot.children){
-                        val comment =snap.getValue<StoreComment>()!!
-                        if(comment.time=="not"){
-                            continue
-                        }
+                        val comment =snap.getValue<StoreComment>()?:continue
+
                         commentList.add(0,comment)
                     }
 
@@ -108,10 +98,11 @@ class Repository {
 
 
     }
-    fun observeSubwayList(subway:MutableLiveData<Array<SubwayData>>){
+    fun requestSubwayList(subway:MutableLiveData<Array<SubwayData>>){
         val call = Api().apiRequest()
 
         call.enqueue(object: Callback<SubwayApiData> {
+
             override fun onResponse(call: Call<SubwayApiData>, response: Response<SubwayApiData>) {
                 response.body()?.realtimeArrivalList?.let{
                     subway.value= it
@@ -124,14 +115,13 @@ class Repository {
                 call.cancel()
 
             }
-    })
+        })
     }
     fun observeUser(userInfo : MutableLiveData<User>,email:String){
         database.getReference("user").addValueEventListener(object:ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(snap in snapshot.children){
-                    if(snap.child("email").getValue()==null) continue
-                    user = snap.getValue<User>()!!
+                    user = snap.getValue<User>()?:continue
                     if(user?.email==email){
                         break
                     }
@@ -148,10 +138,6 @@ class Repository {
     }
     fun postComment(storeComment : StoreComment, storeName : String){
         val score : Float = storeComment.score
-
-
-
-
         database.getReference("cafe").child(storeName).child("comment").push().setValue(storeComment)
         database.getReference("cafe").child(storeName).child("totalScore").setValue(score)
         database.getReference("user").child(storeComment.uId).child("comment").push().setValue(storeComment)

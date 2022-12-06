@@ -16,9 +16,6 @@ import java.text.SimpleDateFormat
 class ReviewDialog : DialogFragment(){
     lateinit var binding:ReviewsDialogBinding
     private val model : DataViewModel by activityViewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

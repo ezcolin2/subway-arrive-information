@@ -21,7 +21,7 @@ class MyCommentFragment : Fragment() {
         val binding = FragmentMyCommentBinding.inflate(inflater)
 
 
-        model.setMyComment()
+        model.getMyComment()
         model.myComments.observe(viewLifecycleOwner){
             val commentList = model.myComments.value
 

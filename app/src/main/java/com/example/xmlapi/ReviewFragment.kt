@@ -17,7 +17,6 @@ import com.google.firebase.ktx.Firebase
 class ReviewFragment : Fragment() {
     lateinit var binding:FragmentReviewBinding
     private lateinit var database: DatabaseReference
-    private lateinit var commentList:ArrayList<StoreComment>
     private val model : DataViewModel by activityViewModels()
     private lateinit var title:String
 
@@ -27,6 +26,16 @@ class ReviewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+        binding=FragmentReviewBinding.inflate(inflater)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        var commentList=ArrayList<StoreComment>()
 
         model.storeName.observe(viewLifecycleOwner){
             binding.txtTitle.text=title
@@ -43,19 +52,12 @@ class ReviewFragment : Fragment() {
         Log.d("name",title)
 
         (activity as RealActivity).hideBottom()
-        binding=FragmentReviewBinding.inflate(inflater)
         database= Firebase.database.reference
 
         binding.btnRegisterReview.setOnClickListener{
             ReviewDialog().show(parentFragmentManager,"dialog")
         }
-        return binding.root
-
-
-
     }
-
-
 
 
 

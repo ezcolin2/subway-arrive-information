@@ -25,8 +25,6 @@ class DataViewModel : ViewModel() {
     init{
         repository.observeCafeList(_arr)
 
-        //repository.observeReviewList(_reviews,_storeName.value!!)
-        //repository.observeSubwayList(_subwayList)
 
     }
     fun setStoreName(storeName:String){
@@ -34,22 +32,18 @@ class DataViewModel : ViewModel() {
         repository.observeReviewList(_reviews,storeName)
     }
     fun setEmail(email:String){
-        Log.d("email",email)
         _email.value = email
-        Log.d("email","!")
         repository.observeUser(_userInfo,email)
-        Log.d("email","@")
 
     }
     fun setComment(storeComment : StoreComment){
         repository.postComment(storeComment,_storeName.value!!)
     }
     fun getSubway(){
-        repository.observeSubwayList(_subwayList)
+        repository.requestSubwayList(_subwayList)
     }
-    fun setMyComment(){
+    fun getMyComment(){
         repository.observeMyCommentList(_myComments,_userInfo.value?.uid?:"none")
-        Log.d("hello",_userInfo.value?.uid?:"none")
     }
 
     val cafeList get()= _arr

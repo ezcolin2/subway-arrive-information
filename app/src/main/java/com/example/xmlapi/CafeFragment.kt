@@ -15,7 +15,7 @@ import com.example.xmlapi.viewmodel.DataViewModel
 class CafeFragment : Fragment() {
     private lateinit var binding: FragmentCafeBinding
     val model:DataViewModel by activityViewModels()
-    var arr:ArrayList<Cafe>?=null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,13 +28,14 @@ class CafeFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var arr=ArrayList<Cafe>()
         model.cafeList.observe(viewLifecycleOwner){
-            arr=model.cafeList.value
-            arr?.let{
-                val adapter = CafeAdapter(this,it)
-                binding.recView.layoutManager = LinearLayoutManager(requireContext())
-                binding.recView.adapter=adapter
-            }
+            arr=model.cafeList.value?:ArrayList<Cafe>()
+
+            val adapter = CafeAdapter(this,arr)
+            binding.recView.layoutManager = LinearLayoutManager(requireContext())
+            binding.recView.adapter=adapter
+
         }
     }
     fun clickEvent(cafeName:String){
